@@ -1,11 +1,12 @@
 {
     "name": "reh-hospitel-app",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "private": true,
     "// If You want to install mdbreact from our GitLab repository, please replace '4.27.0' with gitURL provided here ->": "git+https://oauth2:<YOUR-TOKEN-GOES-HERE>@git.mdbootstrap.com/mdb/react/re-pro.git",
     "dependencies": {
         "@line/liff": "^2.7.1",
         "axios": "^0.21.1",
+        "caniuse-lite": "^1.0.30001214",
         "jsonwebtoken": "^8.5.1",
         "mdbreact": "4.27.0",
         "react": "^16.12.0",
@@ -34,5 +35,6 @@
         "not dead",
         "not ie <= 11",
         "not op_mini all"
-    ]
+    ],
+    "homepage": "http://sgukz.github.io/hospitel-reh-app/"
 }
