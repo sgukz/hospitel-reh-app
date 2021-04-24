@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/hospitel/static/css/main.bea7fdeb.chunk.css",
+    "main.js": "/hospitel/static/js/main.5870e433.chunk.js",
+    "main.js.map": "/hospitel/static/js/main.5870e433.chunk.js.map",
+    "runtime-main.js": "/hospitel/static/js/runtime-main.48c2bed3.js",
+    "runtime-main.js.map": "/hospitel/static/js/runtime-main.48c2bed3.js.map",
+    "static/css/2.34b4ecda.chunk.css": "/hospitel/static/css/2.34b4ecda.chunk.css",
+    "static/js/2.28217f0d.chunk.js": "/hospitel/static/js/2.28217f0d.chunk.js",
+    "static/js/2.28217f0d.chunk.js.map": "/hospitel/static/js/2.28217f0d.chunk.js.map",
+    "index.html": "/hospitel/index.html",
+    "precache-manifest.0459d01a7b55a1f07417c0149aadc643.js": "/hospitel/precache-manifest.0459d01a7b55a1f07417c0149aadc643.js",
+    "service-worker.js": "/hospitel/service-worker.js",
+    "static/css/2.34b4ecda.chunk.css.map": "/hospitel/static/css/2.34b4ecda.chunk.css.map",
+    "static/css/main.bea7fdeb.chunk.css.map": "/hospitel/static/css/main.bea7fdeb.chunk.css.map",
+    "static/js/2.28217f0d.chunk.js.LICENSE.txt": "/hospitel/static/js/2.28217f0d.chunk.js.LICENSE.txt",
+    "static/media/mdb.css": "/hospitel/static/media/arrow_right.8ef6a08c.svg",
+    "static/media/banner_register.png": "/hospitel/static/media/banner_register.7f718e64.png",
+    "static/media/all.min.css": "/hospitel/static/media/fa-solid-900.8e1ed89b.woff2"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.48c2bed3.js",
+    "static/css/2.34b4ecda.chunk.css",
+    "static/js/2.28217f0d.chunk.js",
+    "static/css/main.bea7fdeb.chunk.css",
+    "static/js/main.5870e433.chunk.js"
+  ]
+}
