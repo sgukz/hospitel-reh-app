@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/hospitel-reh-app/precache-manifest.34bedd2a9cb6ea09490d5fecb936a7a9.js"
+  "/hospitel-reh-app/precache-manifest.6c5bb3e3de6963e7f6fbc3da59dc1702.js"
 );
 
 self.addEventListener('message', (event) => {
