@@ -200,7 +200,7 @@ const RegisterPage = () => {
   }, []);
   return (
     <div>
-      <div className="ml-3 mr-3 mb-3" style={{ marginTop: "120px" }}>
+      <div className="ml-2 mr-2 mb-3" style={{ marginTop: "118px" }}>
         <MDBAnimation type="zoomIn" duration="500ms">
           <MDBFreeBird>
             <MDBRow>
@@ -235,7 +235,7 @@ const RegisterPage = () => {
                             <span className="text-danger ml-1">*</span>
                           </label>
                           <input
-                            type="text"
+                            type="number"
                             className="form-control mb-3"
                             placeholder="เลขบัตรประชาชน"
                             value={userIDCard}
