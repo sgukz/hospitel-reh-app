@@ -13,7 +13,7 @@ import Routes from "./Routes";
 // import Firefox from "./assets/images/Firefox-icon.png";
 // import Safari from "./assets/images/safari-icon.png";
 // import IE from "./assets/images/Internet-Explorer-icon.png";
-const pkgVersion = require("../package.json").version;
+// const pkgVersion = require("../package.json").version;
 import Banner from "./assets/images/banner_register.png";
 class App extends Component {
   state = {
@@ -103,7 +103,8 @@ class App extends Component {
           <MDBFooter className="font-small elegant-color-dark">
             <div className="footer-copyright text-center py-3">
               <MDBContainer fluid>
-                version {pkgVersion} &copy; {new Date().getFullYear()} Copyright{" "}
+                
+                &copy; {new Date().getFullYear()} Copyright{" "}
                 <a href="http://reh.go.th" rel="noopener">
                   {" "}
                   โรงพยาบาลร้อยเอ็ด
