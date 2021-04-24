@@ -162,7 +162,14 @@ const RegisterPage = () => {
           Swal.fire({
             title: res.data.msg,
             text: "ขอบคุณค่ะ",
+            showDenyButton: false,
+            showCancelButton: false,
+            confirmButtonText: `ตกลง`,
             icon: res.data.type,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              liff.closeWindow();
+            }
           });
         } else {
           Swal.fire({
