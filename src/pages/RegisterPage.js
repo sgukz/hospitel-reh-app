@@ -178,21 +178,21 @@ const RegisterPage = () => {
   };
 
   const InitailizeLiff = () => {
-    // liff.init(
-    //   {
-    //     liffId: "1655384297-9EroMoWn",
-    //   },
-    //   () => {
-    //     if (liff.isLoggedIn()) {
-    //       liff.getProfile().then((profile) => {
-    //         setUserID(profile.userId);
-    //       });
-    //     } else {
-    //       alert("No login!");
-    //     }
-    //   },
-    //   (err) => console.log(err)
-    // );
+    liff.init(
+      {
+        liffId: "1655908292-5Y1rqwK3",
+      },
+      () => {
+        if (liff.isLoggedIn()) {
+          liff.getProfile().then((profile) => {
+            setUserID(profile.userId);
+          });
+        } else {
+          alert("No login!");
+        }
+      },
+      (err) => console.log(err)
+    );
   };
 
   useEffect(() => {
