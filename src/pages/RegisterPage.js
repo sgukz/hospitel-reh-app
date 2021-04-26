@@ -80,6 +80,8 @@ const RegisterPage = () => {
               setUserRegDate(val.regDate);
               setUserDchPlanDate(val.dchDate);
               setUserPhone(val.phone);
+              setUserWeight(val.weight);
+              setUserHeight(val.height);
             });
           } else {
             Swal.fire({
@@ -178,6 +180,8 @@ const RegisterPage = () => {
         bedno: userBedNumber,
         regdate: userRegDate,
         dchdate_plan: userDchPlanDate,
+        weight: userWeight,
+        height: userHeight,
         phone: userPhone,
         created_date: "",
       };
