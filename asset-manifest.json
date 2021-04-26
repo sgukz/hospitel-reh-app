@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/hospitel-reh-app/static/css/main.64cd53e3.chunk.css",
-    "main.js": "/hospitel-reh-app/static/js/main.0ed90e03.chunk.js",
-    "main.js.map": "/hospitel-reh-app/static/js/main.0ed90e03.chunk.js.map",
+    "main.js": "/hospitel-reh-app/static/js/main.6edb9bd1.chunk.js",
+    "main.js.map": "/hospitel-reh-app/static/js/main.6edb9bd1.chunk.js.map",
     "runtime-main.js": "/hospitel-reh-app/static/js/runtime-main.f566e8a2.js",
     "runtime-main.js.map": "/hospitel-reh-app/static/js/runtime-main.f566e8a2.js.map",
     "static/css/2.833949d1.chunk.css": "/hospitel-reh-app/static/css/2.833949d1.chunk.css",
     "static/js/2.a17c9cd4.chunk.js": "/hospitel-reh-app/static/js/2.a17c9cd4.chunk.js",
     "static/js/2.a17c9cd4.chunk.js.map": "/hospitel-reh-app/static/js/2.a17c9cd4.chunk.js.map",
     "index.html": "/hospitel-reh-app/index.html",
-    "precache-manifest.ba713e8de46cb112410c50d6bb0ec8c9.js": "/hospitel-reh-app/precache-manifest.ba713e8de46cb112410c50d6bb0ec8c9.js",
+    "precache-manifest.1a546216dcc315164d1a6a3a6a91dbcd.js": "/hospitel-reh-app/precache-manifest.1a546216dcc315164d1a6a3a6a91dbcd.js",
     "service-worker.js": "/hospitel-reh-app/service-worker.js",
     "static/css/2.833949d1.chunk.css.map": "/hospitel-reh-app/static/css/2.833949d1.chunk.css.map",
     "static/css/main.64cd53e3.chunk.css.map": "/hospitel-reh-app/static/css/main.64cd53e3.chunk.css.map",
@@ -23,6 +23,6 @@
     "static/css/2.833949d1.chunk.css",
     "static/js/2.a17c9cd4.chunk.js",
     "static/css/main.64cd53e3.chunk.css",
-    "static/js/main.0ed90e03.chunk.js"
+    "static/js/main.6edb9bd1.chunk.js"
   ]
 }
