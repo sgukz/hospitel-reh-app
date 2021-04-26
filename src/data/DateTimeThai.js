@@ -25,6 +25,8 @@ const DateTimeThai = (datetime, format) => {
     createdDate = new_date;
   } else if (format === 2) {
     createdDate = new_time;
+  }else if (format === 3) {
+    createdDate = `${date_str[2]}/${date_str[1]}/${parseInt(date_str[0]) + 543}`
   } else {
     createdDate = new_date + " " + new_time;
   }

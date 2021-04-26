@@ -4,6 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import config from "../config";
 import liff from "@line/liff";
+import Banner from "../assets/images/banner_register.png";
 
 import {
   MDBFreeBird,
@@ -19,9 +20,11 @@ const RegisterPage = () => {
   const [userHN, setUserHN] = useState("");
   const [userAN, setUserAN] = useState("");
   const [userVN, setUserVN] = useState("");
+  const [userWeight, setUserWeight] = useState("");
+  const [userHeight, setUserHeight] = useState("");
   const [userRegDate, setUserRegDate] = useState("");
-  const [userRegTime, setUserRegTime] = useState("");
   const [userDchPlanDate, setUserDchPlanDate] = useState("");
+  const [userPhone, setUserPhone] = useState("");
   const [userPreName, setUserPreName] = useState("");
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
@@ -55,6 +58,56 @@ const RegisterPage = () => {
     }
   };
 
+  const laodData = (userId) => {
+    if (userId !== "") {
+      const base_url = `${config.main_config.APP_URL}/getUserByUserID/${userId}`;
+      const header = {
+        "Content-Type": "application/json",
+      };
+      axios
+        .get(base_url, { headers: header })
+        .then((resp) => {
+          if (resp.data.data.length > 0) {
+            resp.data.data.map((val) => {
+              setIsData(true);
+              setUserPreName(val.pname);
+              setUserFirstName(val.fname);
+              setUserLastName(val.lname);
+              setUserBedNumber(val.bedno);
+              setUserHN(val.hn);
+              setUserAN(val.an);
+              setUserVN(val.vn);
+              setUserRegDate(val.regDate);
+              setUserDchPlanDate(val.dchDate);
+              setUserPhone(val.phone);
+            });
+          } else {
+            Swal.fire({
+              title: "แจ้งเตือน",
+              text: "ไม่พบข้อมูลของคุณในระบบ กรุณากรอกตรวจสอบเลขบัตรประชาชน",
+              icon: "warning",
+            });
+          }
+        })
+        .catch((error) => {
+          const error_code = "Network";
+          if (("" + error).indexOf(error_code) > -1) {
+            Swal.fire({
+              title: "Can't connect service!",
+              text: "Please try again.",
+              icon: "error",
+            });
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: "" + error,
+              icon: "error",
+            });
+          }
+        });
+    }
+  };
+
   const handleOnClickSearch = (keyword) => {
     if (keyword !== "") {
       const base_url = `${config.main_config.APP_URL}/getPatientByCID/${keyword}`;
@@ -66,6 +119,7 @@ const RegisterPage = () => {
         .then((resp) => {
           if (resp.status === 200) {
             if (resp.data.data.length > 0) {
+              // console.log(resp.data.data);
               resp.data.data.map((val) => {
                 setIsData(true);
                 setUserPreName(val.pname);
@@ -76,7 +130,6 @@ const RegisterPage = () => {
                 setUserAN(val.an);
                 setUserVN(val.vn);
                 setUserRegDate(val.regdate);
-                setUserRegTime(val.regtime);
                 setUserDchPlanDate(val.dchdate_plan);
               });
             } else {
@@ -111,77 +164,87 @@ const RegisterPage = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    event.target.className += " was-validated";
+    if (userPreName !== "") {
+      event.target.className += " was-validated";
+      let formDataUser = {
+        user_id: userId,
+        pname: userPreName,
+        fname: userFirstName,
+        lname: userLastName,
+        cid: userIDCard,
+        an: userAN,
+        hn: userHN,
+        vn: userVN,
+        bedno: userBedNumber,
+        regdate: userRegDate,
+        dchdate_plan: userDchPlanDate,
+        phone: userPhone,
+        created_date: "",
+      };
 
-    let formDataUser = {
-      user_id: userId,
-      pname: userPreName,
-      fname: userFirstName,
-      lname: userLastName,
-      cid: userIDCard,
-      an: userAN,
-      hn: userHN,
-      vn: userVN,
-      bedno: userBedNumber,
-      regdate: userRegDate,
-      regtime: userRegTime,
-      dchdate_plan: userDchPlanDate,
-      created_date: "",
-    };
-
-    let formDataUserEvaluation = {
-      evaluation_id: roundAssessment,
-      user_id: userId,
-      user_evaluation_date: dateAssessment,
-      user_evaluation_blood: userEvaluationBlood,
-      user_evaluation_heart: userEvaluationHeart,
-      user_evaluation_body: userEvaluationBody,
-      user_evaluation_oxygen: userEvaluationOxygen,
-      user_evaluation_cough: evaluationCough,
-      user_evaluation_phlegm: evaluationPhlegm,
-      user_evaluation_gasp: evaluationGasp,
-      user_evaluation_taste: evaluationTaste,
-      user_evaluation_muscle: evaluationMuscle,
-      user_evaluation_liquid: evaluationLiquid,
-      user_evaluation_rash: evaluationRash,
-      user_evaluation_fever: evaluationFever,
-      user_evaluation_snot: evaluationSnot,
-      user_evaluation_redeye: evaluationRedEye,
-      user_evaluation_tired: evaluationTired,
-      created_date: "",
-    };
-
-    const base_url = `${config.main_config.APP_URL}/saveData`;
-    axios
-      .post(base_url, {
-        formDataUser: formDataUser,
-        formDataUserEvaluation: formDataUserEvaluation,
-      })
-      .then((res) => {
-        if (res.data.status_code === 200) {
-          Swal.fire({
-            title: res.data.msg,
-            text: "ขอบคุณค่ะ",
-            showDenyButton: false,
-            showCancelButton: false,
-            confirmButtonText: `ตกลง`,
-            icon: res.data.type,
-          }).then((result) => {
-            if (result.isConfirmed) {
-              liff.closeWindow();
-            }
-          });
-        } else {
-          Swal.fire({
-            title: "เกิดข้อผิดพลาด",
-            text: res.data.msg,
-            icon: res.data.type,
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(JSON.stringify(err));
+      let formDataUserEvaluation = {
+        evaluation_id: roundAssessment,
+        user_id: userId,
+        user_evaluation_date: dateAssessment,
+        user_evaluation_blood: userEvaluationBlood,
+        user_evaluation_heart: userEvaluationHeart,
+        user_evaluation_body: userEvaluationBody,
+        user_evaluation_oxygen: userEvaluationOxygen,
+        user_evaluation_cough: evaluationCough,
+        user_evaluation_phlegm: evaluationPhlegm,
+        user_evaluation_gasp: evaluationGasp,
+        user_evaluation_taste: evaluationTaste,
+        user_evaluation_muscle: evaluationMuscle,
+        user_evaluation_liquid: evaluationLiquid,
+        user_evaluation_rash: evaluationRash,
+        user_evaluation_fever: evaluationFever,
+        user_evaluation_snot: evaluationSnot,
+        user_evaluation_redeye: evaluationRedEye,
+        user_evaluation_tired: evaluationTired,
+        created_date: "",
+      };
+      // console.log({
+      //   formDataUser: formDataUser,
+      //   formDataUserEvaluation: formDataUserEvaluation,
+      // });
+      const base_url = `${config.main_config.APP_URL}/saveData`;
+      axios
+        .post(base_url, {
+          formDataUser: formDataUser,
+          formDataUserEvaluation: formDataUserEvaluation,
+        })
+        .then((res) => {
+          if (res.data.status_code === 200) {
+            Swal.fire({
+              title: res.data.msg,
+              text: "ขอบคุณค่ะ",
+              showDenyButton: false,
+              showCancelButton: false,
+              confirmButtonText: `ตกลง`,
+              icon: res.data.type,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                liff.closeWindow();
+              }
+            });
+          } else {
+            Swal.fire({
+              title: "เกิดข้อผิดพลาด",
+              text: res.data.msg,
+              icon: res.data.type,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(JSON.stringify(err));
+        });
+    } else {
+      Swal.fire({
+        title: "แจ้งเตือน",
+        text: "กรุณาตรวจสอบเลขบัตรประชาชน ก่อนบันทึกข้อมูล",
+        icon: "warning",
       });
+    }
   };
 
   const InitailizeLiff = () => {
@@ -193,9 +256,10 @@ const RegisterPage = () => {
         if (liff.isLoggedIn()) {
           liff.getProfile().then((profile) => {
             setUserID(profile.userId);
+            laodData(profile.userId);
           });
         } else {
-          alert("No login!");
+          console.log("No login!");
         }
       },
       (err) => console.log(err)
@@ -206,7 +270,8 @@ const RegisterPage = () => {
     InitailizeLiff();
   }, []);
   return (
-    <div>
+    <div className="flyout">
+      <img src={Banner} alt="โรงพยาบาลสนามร้อยเอ็ด" />
       <div className="ml-2 mr-2 mb-3" style={{ marginTop: "118px" }}>
         <MDBAnimation type="zoomIn" duration="500ms">
           <MDBFreeBird>
@@ -229,11 +294,6 @@ const RegisterPage = () => {
                         </MDBCol>
                       </MDBRow>
                     </div>
-                    {/* <div className="mt-3 mb-2">
-                      <small className="text-danger ml-1">
-                        * จำเป็นต้องกรอก
-                      </small>
-                    </div> */}
                     <form className="needs-validation" onSubmit={submitHandler}>
                       <MDBRow>
                         <MDBCol md="12">
@@ -243,7 +303,7 @@ const RegisterPage = () => {
                           </label>
                           <input
                             type="number"
-                            className="form-control mb-3"
+                            className="form-control"
                             placeholder="เลขบัตรประชาชน"
                             value={userIDCard}
                             onKeyDown={keyPress}
@@ -252,6 +312,10 @@ const RegisterPage = () => {
                             }}
                             required
                           />
+                          <small className="red-text pl-2">
+                            กรุณากดปุ่มตรวจสอบหลังบันทึกเลขบัตรประชาชน
+                          </small>
+                          <br />
                           <MDBBtn
                             color="primary"
                             className="mt-1 mb-3"
@@ -260,6 +324,55 @@ const RegisterPage = () => {
                           >
                             ตรวจสอบ
                           </MDBBtn>
+                        </MDBCol>
+                      </MDBRow>
+                      <MDBRow>
+                        <MDBCol md="8">
+                          <label className="grey-text">
+                            เบอร์โทร
+                            <span className="text-danger ml-1">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control mb-3 col-8"
+                            onChange={(v) => setUserPhone(v.target.value)}
+                            value={userPhone}
+                            placeholder="กรุณาระบุเบอร์"
+                            maxLength="10"
+                            required
+                          />
+                        </MDBCol>
+                      </MDBRow>
+                      <MDBRow>
+                        <MDBCol className="col-6">
+                          <label className="grey-text">
+                            น้ำหนัก (กก.)
+                            <span className="text-danger ml-1">*</span>
+                          </label>
+                          <input
+                            type="number"
+                            className="form-control mb-3 col-12"
+                            onChange={(v) => setUserWeight(v.target.value)}
+                            value={userWeight}
+                            placeholder="น้ำหนัก"
+                            maxLength="5"
+                            required
+                          />
+                        </MDBCol>
+                        <MDBCol className="col-6">
+                          <label className="grey-text">
+                            ส่วนสูง (ซม.)
+                            <span className="text-danger ml-1">*</span>
+                          </label>
+                          <input
+                            type="number"
+                            className="form-control mb-3 col-12"
+                            onChange={(v) => setUserHeight(v.target.value)}
+                            value={userHeight}
+                            placeholder="ส่วนสูง"
+                            maxLength="3"
+                            required
+                          />
                         </MDBCol>
                       </MDBRow>
                       <MDBRow>
@@ -278,23 +391,13 @@ const RegisterPage = () => {
                                 ชื่อ - นามสกุล
                               </label>
                               <strong>{`${userPreName}${userFirstName} ${userLastName}`}</strong>
+                              <br />
+                              <label className="grey-text mr-3">
+                                หมายเลขเตียง
+                              </label>
+                              <strong>{`${userBedNumber}`}</strong>
                             </div>
                           )}
-                        </MDBCol>
-                      </MDBRow>
-                      <MDBRow>
-                        <MDBCol md="6">
-                          <label className="grey-text">
-                            หมายเลขเตียง
-                            <span className="text-danger ml-1">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control mb-3 col-6"
-                            onChange={(v) => setUserBedNumber(v.target.value)}
-                            value={userBedNumber}
-                            required
-                          />
                         </MDBCol>
                       </MDBRow>
                       <hr />
@@ -375,7 +478,9 @@ const RegisterPage = () => {
                       </MDBRow>
                       <MDBRow>
                         <MDBCol md="8">
-                          <label className="blue-text">ความดันโลหิต (BP)</label>
+                          <label className="blue-text">
+                            ความดันโลหิต (BP) ตัวอย่าง 120/89
+                          </label>
                           <input
                             type="text"
                             className="form-control mb-3 col-8"
@@ -388,7 +493,8 @@ const RegisterPage = () => {
                       <MDBRow>
                         <MDBCol md="8">
                           <label className="blue-text">
-                            อัตราการเต้นของหัวใจ/นาที (Pulse/min)
+                            อัตราการเต้นของหัวใจต่อนาที (Pulse per min) ตัวอย่าง
+                            98
                           </label>
                           <input
                             type="text"
@@ -402,7 +508,7 @@ const RegisterPage = () => {
                       <MDBRow>
                         <MDBCol md="8">
                           <label className="blue-text">
-                            อุณหภูมิร่างกาย (&#8451;ํ)
+                            อุณหภูมิร่างกาย ( ํC) ตัวอย่าง 36.5
                           </label>
                           <input
                             type="text"
@@ -416,19 +522,22 @@ const RegisterPage = () => {
                       <MDBRow>
                         <MDBCol md="8">
                           <label className="blue-text">
-                            ค่าออกซิเจนในเลือด (SpO2)
+                            ค่าออกซิเจนในเลือด (SpO2) ตัวอย่าง 99
                           </label>
                           <input
                             type="text"
-                            className="form-control mb-3 col-8"
-                            onChange={(v) =>
-                              setUserEvaluationOxygen(v.target.value)
-                            }
+                            className="form-control col-8"
+                            onChange={(v) => {
+                              setUserEvaluationOxygen(v.target.value);
+                            }}
                           />
+                          <small className="orange-text">
+                            ค่าออกซิเจนในเลือด ค่าสุงสุดไม่เกิน 100
+                          </small>
                         </MDBCol>
                       </MDBRow>
                       <MDBRow>
-                        <MDBCol md="8">
+                        <MDBCol md="8" className="mt-4">
                           <label className="blue-text">
                             ท่านมีอาการเหล่านี้หรือไม่
                           </label>

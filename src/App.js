@@ -96,7 +96,6 @@ class App extends Component {
     return (
       <Router>
         <div className="flyout teal accent-4">
-          <img src={Banner} alt="โรงพยาบาลสนามร้อยเอ็ด"/>
           <main>
             <Routes />
           </main>

@@ -1,8 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import RegisterPage from "./pages/RegisterPage";
-import SearchPage from "./pages/SearchPage";
-import ShowDataPage from "./pages/ShowDataPage";
 
 class Routes extends React.Component {
   render() {
@@ -10,7 +8,6 @@ class Routes extends React.Component {
       <Switch>
         <Route exact path="/" component={RegisterPage} />
         <Route exact path="/hospitel-reh-app" component={RegisterPage} />
-        <Route exact path="/hospitel-reh-app/showdata" component={ShowDataPage} />
         <Route
           render={function () {
             return (
