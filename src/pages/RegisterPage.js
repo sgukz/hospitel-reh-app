@@ -14,6 +14,18 @@ import {
   MDBAnimation,
   MDBBtn,
 } from "mdbreact";
+
+function toDay() {
+  const toTwoDigits = (num) => (num < 10 ? "0" + num : num);
+  let strDate = new Date();
+  let day = toTwoDigits(strDate.getDate());
+  let month = toTwoDigits(parseInt(strDate.getMonth())+1);
+  let year = strDate.getFullYear();
+  return `${year}-${month}-${day}`;
+}
+
+const today = toDay()
+
 const RegisterPage = () => {
   const [isData, setIsData] = useState(false);
   const [userId, setUserID] = useState("");
@@ -30,11 +42,12 @@ const RegisterPage = () => {
   const [userLastName, setUserLastName] = useState("");
   const [userIDCard, setUserIDCard] = useState("");
   const [userBedNumber, setUserBedNumber] = useState("");
-  const [dateAssessment, setDateAssessment] = useState("");
+  const [dateAssessment, setDateAssessment] = useState(today);
   const [roundAssessment, setRoundAssessment] = useState("");
-  const [userEvaluationBlood, setUserEvaluationBlood] = useState("");
-  const [userEvaluationHeart, setUserEvaluationHeart] = useState("");
-  const [userEvaluationBody, setUserEvaluationBody] = useState("");
+  const [userSYS, setUserSYS] = useState("");
+  const [userDIA, setUserDIA] = useState("");
+  const [userPR, setUserPR] = useState("");
+  const [userEvaluationTemp, setUserEvaluationTemp] = useState("");
   const [userEvaluationOxygen, setUserEvaluationOxygen] = useState("");
   const [evaluationCough, setEvaluationCough] = useState(0);
   const [evaluationPhlegm, setEvaluationPhlegm] = useState(0);
@@ -47,6 +60,7 @@ const RegisterPage = () => {
   const [evaluationSnot, setEvaluationSnot] = useState(0);
   const [evaluationRedEye, setEvaluationRedEye] = useState(0);
   const [evaluationTired, setEvaluationTired] = useState(0);
+
 
   const handleSearch = (event) => {
     setUserIDCard(event.target.value);
@@ -190,9 +204,10 @@ const RegisterPage = () => {
         evaluation_id: roundAssessment,
         user_id: userId,
         user_evaluation_date: dateAssessment,
-        user_evaluation_blood: userEvaluationBlood,
-        user_evaluation_heart: userEvaluationHeart,
-        user_evaluation_body: userEvaluationBody,
+        user_evaluation_sys: userSYS,
+        user_evaluation_dia: userDIA,
+        user_evaluation_pr: userPR,
+        user_evaluation_temp: userEvaluationTemp,
         user_evaluation_oxygen: userEvaluationOxygen,
         user_evaluation_cough: evaluationCough,
         user_evaluation_phlegm: evaluationPhlegm,
@@ -429,6 +444,7 @@ const RegisterPage = () => {
                             name="regis_date"
                             className="form-control"
                             onChange={(v) => setDateAssessment(v.target.value)}
+                            value={dateAssessment}
                             required
                           />
                         </MDBCol>
@@ -482,54 +498,39 @@ const RegisterPage = () => {
                       </MDBRow>
                       <MDBRow>
                         <MDBCol md="8">
-                          <label className="blue-text">
-                            ความดันโลหิต (BP) ตัวอย่าง 120/89
-                          </label>
+                          <label className="blue-text">SYS (mmHg)</label>
                           <input
-                            type="text"
+                            type="number"
                             className="form-control mb-3 col-8"
-                            onChange={(v) =>
-                              setUserEvaluationBlood(v.target.value)
-                            }
+                            onChange={(v) => setUserSYS(v.target.value)}
                           />
                         </MDBCol>
                       </MDBRow>
                       <MDBRow>
                         <MDBCol md="8">
-                          <label className="blue-text">
-                            อัตราการเต้นของหัวใจต่อนาที (Pulse per min) ตัวอย่าง
-                            98
-                          </label>
+                          <label className="blue-text">DIA (mmHg)</label>
                           <input
-                            type="text"
+                            type="number"
                             className="form-control mb-3 col-8"
-                            onChange={(v) =>
-                              setUserEvaluationHeart(v.target.value)
-                            }
+                            onChange={(v) => setUserDIA(v.target.value)}
                           />
                         </MDBCol>
                       </MDBRow>
                       <MDBRow>
                         <MDBCol md="8">
-                          <label className="blue-text">
-                            อุณหภูมิร่างกาย ( ํC) ตัวอย่าง 36.5
-                          </label>
+                          <label className="blue-text">PR (bpm)</label>
                           <input
-                            type="text"
+                            type="number"
                             className="form-control mb-3 col-8"
-                            onChange={(v) =>
-                              setUserEvaluationBody(v.target.value)
-                            }
+                            onChange={(v) => setUserPR(v.target.value)}
                           />
                         </MDBCol>
                       </MDBRow>
                       <MDBRow>
                         <MDBCol md="8">
-                          <label className="blue-text">
-                            ค่าออกซิเจนในเลือด (SpO2) ตัวอย่าง 99
-                          </label>
+                          <label className="blue-text">%SpO2</label>
                           <input
-                            type="text"
+                            type="number"
                             className="form-control col-8"
                             onChange={(v) => {
                               setUserEvaluationOxygen(v.target.value);
@@ -538,6 +539,20 @@ const RegisterPage = () => {
                           <small className="orange-text">
                             ค่าออกซิเจนในเลือด ค่าสุงสุดไม่เกิน 100
                           </small>
+                        </MDBCol>
+                      </MDBRow>
+                      <MDBRow>
+                        <MDBCol md="8">
+                          <label className="blue-text">
+                            อุณหภูมิร่างกาย ( ํC) ตัวอย่าง 36.5
+                          </label>
+                          <input
+                            type="number"
+                            className="form-control mb-3 col-8"
+                            onChange={(v) =>
+                              setUserEvaluationTemp(v.target.value)
+                            }
+                          />
                         </MDBCol>
                       </MDBRow>
                       <MDBRow>
