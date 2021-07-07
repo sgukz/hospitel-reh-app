@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "944efa3bfb29b46a8e492ab928623921",
+    "revision": "109d467364a1e4a049776a31af269d1c",
     "url": "/hospitel-reh-app/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/hospitel-reh-app/static/css/2.833949d1.chunk.css"
   },
   {
-    "revision": "385dcae055c4f87a38e3",
+    "revision": "d88a5d0668c7f1183ddc",
     "url": "/hospitel-reh-app/static/css/main.64cd53e3.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/hospitel-reh-app/static/js/2.a17c9cd4.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "385dcae055c4f87a38e3",
-    "url": "/hospitel-reh-app/static/js/main.6edb9bd1.chunk.js"
+    "revision": "d88a5d0668c7f1183ddc",
+    "url": "/hospitel-reh-app/static/js/main.073312e2.chunk.js"
   },
   {
     "revision": "51c8da49fed1cd3abb24",
