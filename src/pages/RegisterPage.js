@@ -582,7 +582,7 @@ const RegisterPage = () => {
                             อุณหภูมิร่างกาย ( ํC) ตัวอย่าง 36.5
                           </label>
                           <input
-                            type="number"
+                            type="text"
                             className="form-control mb-3 col-8"
                             onChange={(v) =>
                               setUserEvaluationTemp(v.target.value)
