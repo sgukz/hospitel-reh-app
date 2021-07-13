@@ -24,6 +24,18 @@ function toDay() {
   return `${year}-${month}-${day}`;
 }
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top",
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener("mouseenter", Swal.stopTimer);
+    toast.addEventListener("mouseleave", Swal.resumeTimer);
+  },
+});
+
 const today = toDay();
 
 const RegisterPage = () => {
@@ -232,29 +244,38 @@ const RegisterPage = () => {
           formDataUserEvaluation: formDataUserEvaluation,
         })
         .then((res) => {
-          if (res.data.status_code === 200) {
-            Swal.fire({
-              title: res.data.msg,
-              text: "ขอบคุณค่ะ",
-              showDenyButton: false,
-              showCancelButton: false,
-              confirmButtonText: `ตกลง`,
-              icon: res.data.type,
-            }).then((result) => {
-              if (result.isConfirmed) {
-                liff.closeWindow();
-              }
-            });
-          } else {
-            Swal.fire({
-              title: "เกิดข้อผิดพลาด",
-              text: res.data.msg,
-              icon: res.data.type,
-            });
-          }
+          Swal.fire({
+            title: "debug",
+            text: JSON.stringify(res.data),
+            icon: res.data,
+          });
+          // if (res.data.status_code === 200) {
+          //   Swal.fire({
+          //     title: res.data.msg,
+          //     text: "ขอบคุณค่ะ",
+          //     showDenyButton: false,
+          //     showCancelButton: false,
+          //     confirmButtonText: `ตกลง`,
+          //     icon: res.data.type,
+          //   }).then((result) => {
+          //     if (result.isConfirmed) {
+          //       liff.closeWindow();
+          //     }
+          //   });
+          // } else {
+          //   Swal.fire({
+          //     title: "เกิดข้อผิดพลาด",
+          //     text: JSON.stringify(res.data.msg),
+          //     icon: res.data.type,
+          //   });
+          // }
         })
         .catch((err) => {
-          console.log(JSON.stringify(err));
+          Swal.fire({
+            title: "เกิดข้อผิดพลาด",
+            text: JSON.stringify(err),
+            icon: 'error',
+          });
         });
     } else {
       Swal.fire({
@@ -273,23 +294,17 @@ const RegisterPage = () => {
       () => {
         if (liff.isLoggedIn()) {
           liff.getProfile().then((profile) => {
-            Swal.fire({
-              position: "top-end",
+            Toast.fire({
               icon: "success",
-              title: `Login successfuly ${profile.userId}`,
-              showConfirmButton: false,
-              timer: 2000,
+              title: "Login successfuly",
             });
             setUserID(profile.userId);
             laodData(profile.userId);
           });
         } else {
-          Swal.fire({
-            position: "top-end",
+          Toast.fire({
             icon: "error",
             title: "No login!",
-            showConfirmButton: false,
-            timer: 1500,
           });
         }
       },
@@ -298,12 +313,6 @@ const RegisterPage = () => {
   };
 
   useEffect(() => {
-    Swal.fire({
-      title: "แจ้งเตือน",
-      text: "กรุณาตรวจสอบเลขบัตรประชาชน ก่อนบันทึกข้อมูล",
-      icon: "warning",
-      position: "top-right",
-    });
     InitailizeLiff();
   }, []);
   return (
