@@ -8,13 +8,15 @@ import {
 import { BrowserRouter as Router } from "react-router-dom";
 
 import Routes from "./Routes";
+const pkgVersion = require("../package.json").version;
+
 // import Chrome from "./assets/images/Google-Chrome-icon.png";
 // import Edge from "./assets/images/edge-icon.png";
 // import Firefox from "./assets/images/Firefox-icon.png";
 // import Safari from "./assets/images/safari-icon.png";
 // import IE from "./assets/images/Internet-Explorer-icon.png";
 // const pkgVersion = require("../package.json").version;
-import Banner from "./assets/images/banner_register.png";
+// import Banner from "./assets/images/banner_register.png";
 class App extends Component {
   state = {
     collapseID: "",
@@ -102,7 +104,7 @@ class App extends Component {
           <MDBFooter className="font-small elegant-color-dark">
             <div className="footer-copyright text-center py-3">
               <MDBContainer fluid>
-                
+              {`v.${pkgVersion}`}
                 &copy; {new Date().getFullYear()} Copyright{" "}
                 <a href="http://reh.go.th" rel="noopener">
                   {" "}
