@@ -109,11 +109,15 @@ const RegisterPage = () => {
               setUserHeight(val.height);
             });
           } else {
-            Swal.fire({
-              title: "แจ้งเตือน",
-              text: "ไม่พบข้อมูลของคุณในระบบ กรุณากรอกตรวจสอบเลขบัตรประชาชน",
+            Toast.fire({
               icon: "warning",
+              title: "ไม่พบข้อมูลของคุณในระบบ กรุณากรอกตรวจสอบเลขบัตรประชาชน",
             });
+            // Swal.fire({
+            //   title: "แจ้งเตือน",
+            //   text: "ไม่พบข้อมูลของคุณในระบบ กรุณากรอกตรวจสอบเลขบัตรประชาชน",
+            //   icon: "warning",
+            // });
           }
         })
         .catch((error) => {
@@ -265,12 +269,21 @@ const RegisterPage = () => {
             });
           }
         })
-        .catch((err) => {
-          Swal.fire({
-            title: "เกิดข้อผิดพลาด",
-            text: JSON.stringify(err),
-            icon: res.data.type,
-          });
+        .catch((error) => {
+          const error_code = "Network";
+          if (("" + error).indexOf(error_code) > -1) {
+            Swal.fire({
+              title: "Can't connect service!",
+              text: "Please try again.",
+              icon: "error",
+            });
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: "" + error,
+              icon: "error",
+            });
+          }
         });
     } else {
       Swal.fire({
