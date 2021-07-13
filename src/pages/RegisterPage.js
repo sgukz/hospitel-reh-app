@@ -19,12 +19,12 @@ function toDay() {
   const toTwoDigits = (num) => (num < 10 ? "0" + num : num);
   let strDate = new Date();
   let day = toTwoDigits(strDate.getDate());
-  let month = toTwoDigits(parseInt(strDate.getMonth())+1);
+  let month = toTwoDigits(parseInt(strDate.getMonth()) + 1);
   let year = strDate.getFullYear();
   return `${year}-${month}-${day}`;
 }
 
-const today = toDay()
+const today = toDay();
 
 const RegisterPage = () => {
   const [isData, setIsData] = useState(false);
@@ -60,7 +60,6 @@ const RegisterPage = () => {
   const [evaluationSnot, setEvaluationSnot] = useState(0);
   const [evaluationRedEye, setEvaluationRedEye] = useState(0);
   const [evaluationTired, setEvaluationTired] = useState(0);
-
 
   const handleSearch = (event) => {
     setUserIDCard(event.target.value);
@@ -274,11 +273,24 @@ const RegisterPage = () => {
       () => {
         if (liff.isLoggedIn()) {
           liff.getProfile().then((profile) => {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: `Login successfuly ${profile.userId}`,
+              showConfirmButton: false,
+              timer: 2000,
+            });
             setUserID(profile.userId);
             laodData(profile.userId);
           });
         } else {
-          console.log("No login!");
+          Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: "No login!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
       },
       (err) => console.log(err)
@@ -286,6 +298,12 @@ const RegisterPage = () => {
   };
 
   useEffect(() => {
+    Swal.fire({
+      title: "แจ้งเตือน",
+      text: "กรุณาตรวจสอบเลขบัตรประชาชน ก่อนบันทึกข้อมูล",
+      icon: "warning",
+      position: "top-right",
+    });
     InitailizeLiff();
   }, []);
   return (
