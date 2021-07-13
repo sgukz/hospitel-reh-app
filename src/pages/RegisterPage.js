@@ -244,37 +244,32 @@ const RegisterPage = () => {
           formDataUserEvaluation: formDataUserEvaluation,
         })
         .then((res) => {
-          Swal.fire({
-            title: "debug",
-            text: JSON.stringify(res.data),
-            icon: res.data,
-          });
-          // if (res.data.status_code === 200) {
-          //   Swal.fire({
-          //     title: res.data.msg,
-          //     text: "ขอบคุณค่ะ",
-          //     showDenyButton: false,
-          //     showCancelButton: false,
-          //     confirmButtonText: `ตกลง`,
-          //     icon: res.data.type,
-          //   }).then((result) => {
-          //     if (result.isConfirmed) {
-          //       liff.closeWindow();
-          //     }
-          //   });
-          // } else {
-          //   Swal.fire({
-          //     title: "เกิดข้อผิดพลาด",
-          //     text: JSON.stringify(res.data.msg),
-          //     icon: res.data.type,
-          //   });
-          // }
+          if (res.data.status_code === 200) {
+            Swal.fire({
+              title: res.data.msg,
+              text: "ขอบคุณค่ะ",
+              showDenyButton: false,
+              showCancelButton: false,
+              confirmButtonText: `ตกลง`,
+              icon: res.data.type,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                liff.closeWindow();
+              }
+            });
+          } else {
+            Swal.fire({
+              title: "เกิดข้อผิดพลาด",
+              text: JSON.stringify(res.data.msg),
+              icon: res.data.type,
+            });
+          }
         })
         .catch((err) => {
           Swal.fire({
             title: "เกิดข้อผิดพลาด",
             text: JSON.stringify(err),
-            icon: 'error',
+            icon: res.data.type,
           });
         });
     } else {
