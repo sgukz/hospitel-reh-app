@@ -3,5 +3,5 @@ exports.main_config = {
 };
 
 // exports.main_config = {
-//   APP_URL: "http://localhost:9000/hospitel",
+//   APP_URL: "http://localhost:8090/hospitel",
 // };

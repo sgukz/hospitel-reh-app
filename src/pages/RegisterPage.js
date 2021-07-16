@@ -40,7 +40,7 @@ const today = toDay();
 
 const RegisterPage = () => {
   const [isData, setIsData] = useState(false);
-  const [userId, setUserID] = useState("");
+  const [userId, setUserID] = useState("U0ce66a9d268b3f1d81d04b30631acc87");
   const [userHN, setUserHN] = useState("");
   const [userAN, setUserAN] = useState("");
   const [userVN, setUserVN] = useState("");
@@ -83,65 +83,10 @@ const RegisterPage = () => {
     }
   };
 
-  const laodData = (userId) => {
-    if (userId !== "") {
-      const base_url = `${config.main_config.APP_URL}/getUserByUserID/${userId}`;
-      const header = {
-        "Content-Type": "application/json",
-      };
-      axios
-        .get(base_url, { headers: header })
-        .then((resp) => {
-          if (resp.data.data.length > 0) {
-            resp.data.data.map((val) => {
-              setIsData(true);
-              setUserPreName(val.pname);
-              setUserFirstName(val.fname);
-              setUserLastName(val.lname);
-              setUserBedNumber(val.bedno);
-              setUserHN(val.hn);
-              setUserAN(val.an);
-              setUserVN(val.vn);
-              setUserRegDate(val.regDate);
-              setUserDchPlanDate(val.dchDate);
-              setUserPhone(val.phone);
-              setUserWeight(val.weight);
-              setUserHeight(val.height);
-            });
-          } else {
-            Toast.fire({
-              icon: "warning",
-              title: "ไม่พบข้อมูลของคุณในระบบ กรุณากรอกตรวจสอบเลขบัตรประชาชน",
-            });
-            // Swal.fire({
-            //   title: "แจ้งเตือน",
-            //   text: "ไม่พบข้อมูลของคุณในระบบ กรุณากรอกตรวจสอบเลขบัตรประชาชน",
-            //   icon: "warning",
-            // });
-          }
-        })
-        .catch((error) => {
-          const error_code = "Network";
-          if (("" + error).indexOf(error_code) > -1) {
-            Swal.fire({
-              title: "Can't connect service!",
-              text: "Please try again.",
-              icon: "error",
-            });
-          } else {
-            Swal.fire({
-              title: "Error",
-              text: "" + error,
-              icon: "error",
-            });
-          }
-        });
-    }
-  };
-
   const handleOnClickSearch = (keyword) => {
     if (keyword !== "") {
-      const base_url = `${config.main_config.APP_URL}/getPatientByCID/${keyword}`;
+      const base_url = `${config.main_config.APP_URL}/getUserByCID/${keyword}`;
+      // const base_url = `${config.main_config.APP_URL}/getPatientByCID/${keyword}`;
       const header = {
         "Content-Type": "application/json",
       };
@@ -162,15 +107,54 @@ const RegisterPage = () => {
                 setUserVN(val.vn);
                 setUserRegDate(val.regdate);
                 setUserDchPlanDate(val.dchdate_plan);
+                setUserWeight(val.weight);
+                setUserHeight(val.height);
+                setUserPhone(val.phone);
               });
             } else {
-              setIsData(false);
-              setUserBedNumber("");
-              Swal.fire({
-                title: "ไม่พบข้อมูล!",
-                text: "กรุณากรอกเลขบัตรประชาชนให้ถูกต้อง",
-                icon: "error",
-              });
+              const base_url = `${config.main_config.APP_URL}/getPatientByCID/${keyword}`;
+              const header = {
+                "Content-Type": "application/json",
+              };
+              axios
+                .get(base_url, { headers: header })
+                .then((resp) => {
+                  resp.data.data.map((val) => {
+                    setIsData(true);
+                    setUserPreName(val.pname);
+                    setUserFirstName(val.fname);
+                    setUserLastName(val.lname);
+                    setUserBedNumber(val.bedno);
+                    setUserHN(val.hn);
+                    setUserAN(val.an);
+                    setUserVN(val.vn);
+                    setUserRegDate(val.regdate);
+                    setUserDchPlanDate(val.dchdate_plan);
+                  });
+                })
+                .catch((error) => {
+                  const error_code = "Network";
+                  if (("" + error).indexOf(error_code) > -1) {
+                    Swal.fire({
+                      title: "Can't connect service!",
+                      text: "Please try again.",
+                      icon: "error",
+                    });
+                  } else {
+                    Swal.fire({
+                      title: "Error",
+                      text: "" + error,
+                      icon: "error",
+                    });
+                  }
+                });
+              // setIsData(false);
+              // setUserBedNumber("");
+              // Swal.fire({
+              //   title: "ไม่พบข้อมูล!",
+              //   text: "กรุณากรอกเลขบัตรประชาชนให้ถูกต้อง",
+              //   icon: "error",
+              // });
             }
           }
         })
@@ -258,7 +242,7 @@ const RegisterPage = () => {
               icon: res.data.type,
             }).then((result) => {
               if (result.isConfirmed) {
-                liff.closeWindow();
+                // liff.closeWindow();
               }
             });
           } else {
@@ -307,7 +291,6 @@ const RegisterPage = () => {
               title: "Login successfuly",
             });
             setUserID(profile.userId);
-            laodData(profile.userId);
           });
         } else {
           Toast.fire({
@@ -366,7 +349,7 @@ const RegisterPage = () => {
                             }}
                             required
                           />
-                          <small className="red-text pl-2">
+                          <small className="text-warning pl-2">
                             กรุณากดปุ่มตรวจสอบหลังบันทึกเลขบัตรประชาชน
                           </small>
                           <br />
@@ -391,7 +374,7 @@ const RegisterPage = () => {
                             className="form-control mb-3 col-8"
                             onChange={(v) => setUserPhone(v.target.value)}
                             value={userPhone}
-                            placeholder="กรุณาระบุเบอร์"
+                            placeholder="กรุณาระบุเบอร์โทร"
                             maxLength="10"
                             required
                           />
