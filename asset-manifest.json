@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/hospitel-reh-app/static/css/main.64cd53e3.chunk.css",
-    "main.js": "/hospitel-reh-app/static/js/main.7c3acc8e.chunk.js",
-    "main.js.map": "/hospitel-reh-app/static/js/main.7c3acc8e.chunk.js.map",
+    "main.js": "/hospitel-reh-app/static/js/main.a99f7aa8.chunk.js",
+    "main.js.map": "/hospitel-reh-app/static/js/main.a99f7aa8.chunk.js.map",
     "runtime-main.js": "/hospitel-reh-app/static/js/runtime-main.f566e8a2.js",
     "runtime-main.js.map": "/hospitel-reh-app/static/js/runtime-main.f566e8a2.js.map",
     "static/css/2.833949d1.chunk.css": "/hospitel-reh-app/static/css/2.833949d1.chunk.css",
-    "static/js/2.cdcee66c.chunk.js": "/hospitel-reh-app/static/js/2.cdcee66c.chunk.js",
-    "static/js/2.cdcee66c.chunk.js.map": "/hospitel-reh-app/static/js/2.cdcee66c.chunk.js.map",
+    "static/js/2.38089814.chunk.js": "/hospitel-reh-app/static/js/2.38089814.chunk.js",
+    "static/js/2.38089814.chunk.js.map": "/hospitel-reh-app/static/js/2.38089814.chunk.js.map",
     "index.html": "/hospitel-reh-app/index.html",
-    "precache-manifest.7351b12763a5be20537acfde8e7171f8.js": "/hospitel-reh-app/precache-manifest.7351b12763a5be20537acfde8e7171f8.js",
+    "precache-manifest.7e31eac8351af67968967399c2853bf4.js": "/hospitel-reh-app/precache-manifest.7e31eac8351af67968967399c2853bf4.js",
     "service-worker.js": "/hospitel-reh-app/service-worker.js",
     "static/css/2.833949d1.chunk.css.map": "/hospitel-reh-app/static/css/2.833949d1.chunk.css.map",
     "static/css/main.64cd53e3.chunk.css.map": "/hospitel-reh-app/static/css/main.64cd53e3.chunk.css.map",
-    "static/js/2.cdcee66c.chunk.js.LICENSE.txt": "/hospitel-reh-app/static/js/2.cdcee66c.chunk.js.LICENSE.txt",
+    "static/js/2.38089814.chunk.js.LICENSE.txt": "/hospitel-reh-app/static/js/2.38089814.chunk.js.LICENSE.txt",
     "static/media/mdb.css": "/hospitel-reh-app/static/media/arrow_right.8ef6a08c.svg",
     "static/media/banner_register.png": "/hospitel-reh-app/static/media/banner_register.7f718e64.png",
     "static/media/all.min.css": "/hospitel-reh-app/static/media/fa-solid-900.8e1ed89b.woff2"
@@ -21,8 +21,8 @@
   "entrypoints": [
     "static/js/runtime-main.f566e8a2.js",
     "static/css/2.833949d1.chunk.css",
-    "static/js/2.cdcee66c.chunk.js",
+    "static/js/2.38089814.chunk.js",
     "static/css/main.64cd53e3.chunk.css",
-    "static/js/main.7c3acc8e.chunk.js"
+    "static/js/main.a99f7aa8.chunk.js"
   ]
 }
