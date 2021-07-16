@@ -40,7 +40,7 @@ const today = toDay();
 
 const RegisterPage = () => {
   const [isData, setIsData] = useState(false);
-  const [userId, setUserID] = useState("U0ce66a9d268b3f1d81d04b30631acc87");
+  const [userId, setUserID] = useState("");
   const [userHN, setUserHN] = useState("");
   const [userAN, setUserAN] = useState("");
   const [userVN, setUserVN] = useState("");
