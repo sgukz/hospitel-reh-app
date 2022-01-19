@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e0aed5d30440b90f5abed463688aa796",
+    "revision": "3a290f9218e596511ddf7dc77f2e8a01",
     "url": "/hospitel-reh-app/index.html"
   },
   {
-    "revision": "1859e5b5b5e6b8a65974",
+    "revision": "cc41796e174fb99b6d9b",
     "url": "/hospitel-reh-app/static/css/2.833949d1.chunk.css"
   },
   {
-    "revision": "2f5d1fcaec92511b0791",
-    "url": "/hospitel-reh-app/static/css/main.64cd53e3.chunk.css"
+    "revision": "7ebf99256f440c1c31bd",
+    "url": "/hospitel-reh-app/static/css/main.5a45946f.chunk.css"
   },
   {
-    "revision": "1859e5b5b5e6b8a65974",
-    "url": "/hospitel-reh-app/static/js/2.38089814.chunk.js"
+    "revision": "cc41796e174fb99b6d9b",
+    "url": "/hospitel-reh-app/static/js/2.28d336db.chunk.js"
   },
   {
     "revision": "87c00e9e4b35a29f85b95d3b4edc9d4f",
-    "url": "/hospitel-reh-app/static/js/2.38089814.chunk.js.LICENSE.txt"
+    "url": "/hospitel-reh-app/static/js/2.28d336db.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "2f5d1fcaec92511b0791",
-    "url": "/hospitel-reh-app/static/js/main.76c6eb88.chunk.js"
+    "revision": "7ebf99256f440c1c31bd",
+    "url": "/hospitel-reh-app/static/js/main.200c63e9.chunk.js"
   },
   {
     "revision": "51c8da49fed1cd3abb24",
@@ -38,6 +38,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "7f718e6413d77b63b2c7e81e39a4af0d",
     "url": "/hospitel-reh-app/static/media/banner_register.7f718e64.png"
+  },
+  {
+    "revision": "2345dfb0ef65e1977738ea9d31f85a36",
+    "url": "/hospitel-reh-app/static/media/body_temp.2345dfb0.jpg"
   },
   {
     "revision": "2f12242375edd68e9013ecfb59c672e9",
@@ -98,5 +102,9 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "8e1ed89b6ccb8ce41faf5cb672677105",
     "url": "/hospitel-reh-app/static/media/fa-solid-900.8e1ed89b.woff2"
+  },
+  {
+    "revision": "4c8e4d1bcba4aa33429a139777b9c931",
+    "url": "/hospitel-reh-app/static/media/sys_dia2.4c8e4d1b.jpg"
   }
 ]);

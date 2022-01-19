@@ -1,28 +1,30 @@
 {
   "files": {
-    "main.css": "/hospitel-reh-app/static/css/main.64cd53e3.chunk.css",
-    "main.js": "/hospitel-reh-app/static/js/main.76c6eb88.chunk.js",
-    "main.js.map": "/hospitel-reh-app/static/js/main.76c6eb88.chunk.js.map",
+    "main.css": "/hospitel-reh-app/static/css/main.5a45946f.chunk.css",
+    "main.js": "/hospitel-reh-app/static/js/main.200c63e9.chunk.js",
+    "main.js.map": "/hospitel-reh-app/static/js/main.200c63e9.chunk.js.map",
     "runtime-main.js": "/hospitel-reh-app/static/js/runtime-main.f566e8a2.js",
     "runtime-main.js.map": "/hospitel-reh-app/static/js/runtime-main.f566e8a2.js.map",
     "static/css/2.833949d1.chunk.css": "/hospitel-reh-app/static/css/2.833949d1.chunk.css",
-    "static/js/2.38089814.chunk.js": "/hospitel-reh-app/static/js/2.38089814.chunk.js",
-    "static/js/2.38089814.chunk.js.map": "/hospitel-reh-app/static/js/2.38089814.chunk.js.map",
+    "static/js/2.28d336db.chunk.js": "/hospitel-reh-app/static/js/2.28d336db.chunk.js",
+    "static/js/2.28d336db.chunk.js.map": "/hospitel-reh-app/static/js/2.28d336db.chunk.js.map",
     "index.html": "/hospitel-reh-app/index.html",
-    "precache-manifest.9be79e2df8721526ebd9aade8752a288.js": "/hospitel-reh-app/precache-manifest.9be79e2df8721526ebd9aade8752a288.js",
+    "precache-manifest.c0a9c25571a4740e616a9732a6f4f70d.js": "/hospitel-reh-app/precache-manifest.c0a9c25571a4740e616a9732a6f4f70d.js",
     "service-worker.js": "/hospitel-reh-app/service-worker.js",
     "static/css/2.833949d1.chunk.css.map": "/hospitel-reh-app/static/css/2.833949d1.chunk.css.map",
-    "static/css/main.64cd53e3.chunk.css.map": "/hospitel-reh-app/static/css/main.64cd53e3.chunk.css.map",
-    "static/js/2.38089814.chunk.js.LICENSE.txt": "/hospitel-reh-app/static/js/2.38089814.chunk.js.LICENSE.txt",
+    "static/css/main.5a45946f.chunk.css.map": "/hospitel-reh-app/static/css/main.5a45946f.chunk.css.map",
+    "static/js/2.28d336db.chunk.js.LICENSE.txt": "/hospitel-reh-app/static/js/2.28d336db.chunk.js.LICENSE.txt",
     "static/media/mdb.css": "/hospitel-reh-app/static/media/arrow_right.8ef6a08c.svg",
     "static/media/banner_register.png": "/hospitel-reh-app/static/media/banner_register.7f718e64.png",
-    "static/media/all.min.css": "/hospitel-reh-app/static/media/fa-solid-900.8e1ed89b.woff2"
+    "static/media/body_temp.jpg": "/hospitel-reh-app/static/media/body_temp.2345dfb0.jpg",
+    "static/media/all.min.css": "/hospitel-reh-app/static/media/fa-solid-900.8e1ed89b.woff2",
+    "static/media/sys_dia2.jpg": "/hospitel-reh-app/static/media/sys_dia2.4c8e4d1b.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.f566e8a2.js",
     "static/css/2.833949d1.chunk.css",
-    "static/js/2.38089814.chunk.js",
-    "static/css/main.64cd53e3.chunk.css",
-    "static/js/main.76c6eb88.chunk.js"
+    "static/js/2.28d336db.chunk.js",
+    "static/css/main.5a45946f.chunk.css",
+    "static/js/main.200c63e9.chunk.js"
   ]
 }
