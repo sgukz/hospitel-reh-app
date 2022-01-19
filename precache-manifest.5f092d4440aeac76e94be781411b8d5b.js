@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "3a290f9218e596511ddf7dc77f2e8a01",
+    "revision": "3fe7c98fb257e9d5474914a9994d8113",
     "url": "/hospitel-reh-app/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/hospitel-reh-app/static/css/2.833949d1.chunk.css"
   },
   {
-    "revision": "7ebf99256f440c1c31bd",
+    "revision": "c7457b4eaf92af74f579",
     "url": "/hospitel-reh-app/static/css/main.5a45946f.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/hospitel-reh-app/static/js/2.28d336db.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "7ebf99256f440c1c31bd",
-    "url": "/hospitel-reh-app/static/js/main.200c63e9.chunk.js"
+    "revision": "c7457b4eaf92af74f579",
+    "url": "/hospitel-reh-app/static/js/main.498ebf7c.chunk.js"
   },
   {
     "revision": "51c8da49fed1cd3abb24",
@@ -104,7 +104,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/hospitel-reh-app/static/media/fa-solid-900.8e1ed89b.woff2"
   },
   {
-    "revision": "4c8e4d1bcba4aa33429a139777b9c931",
-    "url": "/hospitel-reh-app/static/media/sys_dia2.4c8e4d1b.jpg"
+    "revision": "f008a2ebb1542bc96207b1b9a39b4d80",
+    "url": "/hospitel-reh-app/static/media/pluse_oximeter.f008a2eb.png"
   }
 ]);
