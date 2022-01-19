@@ -17,7 +17,7 @@ import {
   MDBIcon,
 } from "mdbreact";
 import "./RegisterPage.css";
-import SYSandDIA from "../assets/images/sys_dia2.jpg";
+import SYSandDIA from "../assets/images/pluse_oximeter.png";
 import BodyTemp from "../assets/images/body_temp.jpg";
 import DateTimeThai from "../data/DateTimeThai";
 function toDay() {
@@ -752,7 +752,7 @@ const RegisterPage = () => {
                       <MDBRow>
                         <MDBCol className="col-6">
                           <label className="blue-text">
-                            PR (bpm)
+                            Pulse (bpm)
                             <br />
                             <span className="gray-text small-text">
                               (อัตราการเต้นหัวใจ)
