@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 // import { useHistory } from "react-router-dom";
+
 import axios from "axios";
 import Swal from "sweetalert2";
 import config from "../config";
@@ -13,8 +14,12 @@ import {
   MDBCardBody,
   MDBAnimation,
   MDBBtn,
+  MDBIcon,
 } from "mdbreact";
-
+import "./RegisterPage.css";
+import SYSandDIA from "../assets/images/sys_dia2.jpg";
+import BodyTemp from "../assets/images/body_temp.jpg";
+import DateTimeThai from "../data/DateTimeThai";
 function toDay() {
   const toTwoDigits = (num) => (num < 10 ? "0" + num : num);
   let strDate = new Date();
@@ -22,6 +27,23 @@ function toDay() {
   let month = toTwoDigits(parseInt(strDate.getMonth()) + 1);
   let year = strDate.getFullYear();
   return `${year}-${month}-${day}`;
+}
+
+function newDayAdd(inputDate, addDay) {
+  let d = new Date(inputDate);
+  d.setDate(d.getDate() + addDay);
+  let mkMonth1 = d.getMonth() + 1;
+  let mkMonth2 = new String(mkMonth1);
+  if (mkMonth2.length === 1) {
+    mkMonth2 = "0" + mkMonth2;
+  }
+  let mkDay1 = d.getDate();
+  let mkDay2 = new String(mkDay1);
+  if (mkDay2.length === 1) {
+    mkDay2 = "0" + mkDay2;
+  }
+  let mkYear = d.getFullYear();
+  return `${mkYear}-${mkMonth2}-${mkDay2}`;
 }
 
 const Toast = Swal.mixin({
@@ -40,19 +62,22 @@ const today = toDay();
 
 const RegisterPage = () => {
   const [isData, setIsData] = useState(false);
+  const [dataPatient, setDataPatient] = useState([]);
   const [userId, setUserID] = useState("");
   const [userHN, setUserHN] = useState("");
-  const [userAN, setUserAN] = useState("");
   const [userVN, setUserVN] = useState("");
   const [userWeight, setUserWeight] = useState("");
   const [userHeight, setUserHeight] = useState("");
   const [userRegDate, setUserRegDate] = useState("");
+  const [userRegTime, setUserRegTime] = useState("");
   const [userDchPlanDate, setUserDchPlanDate] = useState("");
   const [userPhone, setUserPhone] = useState("");
   const [userPreName, setUserPreName] = useState("");
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
   const [userIDCard, setUserIDCard] = useState("");
+  const [userBirthday, setUserBirthday] = useState("");
+  const [userYearOld, setUserYearOld] = useState("");
   const [userBedNumber, setUserBedNumber] = useState("");
   const [dateAssessment, setDateAssessment] = useState(today);
   const [roundAssessment, setRoundAssessment] = useState("");
@@ -72,7 +97,8 @@ const RegisterPage = () => {
   const [evaluationSnot, setEvaluationSnot] = useState(0);
   const [evaluationRedEye, setEvaluationRedEye] = useState(0);
   const [evaluationTired, setEvaluationTired] = useState(0);
-
+  const [wantConsultDoctor, setWantConsultDoctor] = useState(0);
+  const [errorSPO2, setErrorSPO2] = useState("");
   const handleSearch = (event) => {
     setUserIDCard(event.target.value);
   };
@@ -83,54 +109,163 @@ const RegisterPage = () => {
     }
   };
 
+  const handleClearData = () => {
+    setIsData(false);
+    setUserHN("");
+    setUserVN("");
+    setUserWeight("");
+    setUserHeight("");
+    setUserRegDate("");
+    setUserDchPlanDate("");
+    setUserPhone("");
+    setUserPreName("");
+    setUserFirstName("");
+    setUserLastName("");
+    setUserIDCard("");
+    setUserBirthday("");
+    setUserYearOld("");
+    setUserBedNumber("");
+    setRoundAssessment("");
+    setUserSYS("");
+    setUserDIA("");
+    setUserPR("");
+    setUserEvaluationTemp("");
+    setUserEvaluationOxygen("");
+    setEvaluationCough(0);
+    setEvaluationPhlegm(0);
+    setEvaluationGasp(0);
+    setEvaluationTaste(0);
+    setEvaluationMuscle(0);
+    setEvaluationLiquid(0);
+    setEvaluationRash(0);
+    setEvaluationFever(0);
+    setEvaluationSnot(0);
+    setEvaluationRedEye(0);
+    setEvaluationTired(0);
+    setWantConsultDoctor(0);
+  };
+
+  const loadData = (userId) => {
+    let baseUrl = `${config.main_config.APP_URL}/getUserByUserID/${userId}`;
+    const header = {
+      "Content-Type": "application/json",
+    };
+    axios.get(baseUrl, { headers: header }).then((resp) => {
+      let data = resp.data;
+      // console.log(data);
+      if (data.status === 200) {
+        if (data.data.length > 0) {
+          if (data.data.length === 1) {
+            setDataPatient([]);
+            handleOnClickSearch(data.data[0].cid);
+          } else {
+            setDataPatient(data.data);
+          }
+        } else {
+          Swal.fire({
+            title: "คุณเข้าใช้งานครั้งแรก",
+            text: "กรุณากรอกเลขบัตรประชาชนเพื่อตรวจสอบข้อมูล หากไม่พบข้อมูลกรุณาติดต่อเจ้าหน้าที่ผ่านช่องทางไลน์ 101 COVID CARE หรือโทร. 1669",
+            icon: "warning",
+            confirmButtonText: "ปิด",
+          });
+        }
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: JSON.stringify(resp.data.msg),
+          icon: "error",
+        });
+      }
+    });
+  };
+
   const handleOnClickSearch = (keyword) => {
     if (keyword !== "") {
-      const base_url = `${config.main_config.APP_URL}/getUserByCID/${keyword}`;
-      // const base_url = `${config.main_config.APP_URL}/getPatientByCID/${keyword}`;
+      let baseUrl = `${config.main_config.APP_URL}/getUserByCIDNew/${keyword}`;
       const header = {
         "Content-Type": "application/json",
       };
       axios
-        .get(base_url, { headers: header })
+        .get(baseUrl, { headers: header })
         .then((resp) => {
-          if (resp.status === 200) {
+          if (resp.data.status === 200) {
+            // console.log(resp.data);
             if (resp.data.data.length > 0) {
-              // console.log(resp.data.data);
+              setDataPatient([]);
               resp.data.data.map((val) => {
                 setIsData(true);
+                setUserHN(val.hn);
+                setUserVN(val.vn);
+                setUserWeight(val.weight);
+                setUserHeight(val.height);
+                setUserRegDate(val.regDate);
+                setUserDchPlanDate(val.dchDate);
+                setUserPhone(val.phone);
                 setUserPreName(val.pname);
                 setUserFirstName(val.fname);
                 setUserLastName(val.lname);
+                setUserIDCard(val.cid);
+                setUserBirthday(val.birthDay);
+                setUserYearOld(val.year_old);
                 setUserBedNumber(val.bedno);
-                setUserHN(val.hn);
-                setUserAN(val.an);
-                setUserVN(val.vn);
-                setUserRegDate(val.regdate);
-                setUserDchPlanDate(val.dchdate_plan);
-                setUserWeight(val.weight);
-                setUserHeight(val.height);
-                setUserPhone(val.phone);
+                setDateAssessment(val.dateAssessment);
+                setRoundAssessment(val.evaluation_id);
+                setUserSYS(val.user_evaluation_sys);
+                setUserDIA(val.user_evaluation_dia);
+                setUserPR(val.user_evaluation_pr);
+                setUserEvaluationTemp(val.user_evaluation_temp);
+                setUserEvaluationOxygen(val.user_evaluation_oxygen);
+                setEvaluationCough(val.user_evaluation_cough);
+                setEvaluationPhlegm(val.user_evaluation_phlegm);
+                setEvaluationGasp(val.user_evaluation_gasp);
+                setEvaluationTaste(val.user_evaluation_taste);
+                setEvaluationMuscle(val.user_evaluation_muscle);
+                setEvaluationLiquid(val.user_evaluation_liquid);
+                setEvaluationRash(val.user_evaluation_rash);
+                setEvaluationFever(val.user_evaluation_fever);
+                setEvaluationSnot(val.user_evaluation_snot);
+                setEvaluationRedEye(val.user_evaluation_redeye);
+                setEvaluationTired(val.user_evaluation_tired);
+                setWantConsultDoctor(val.want_consult_doctor);
+                return true
               });
             } else {
-              const base_url = `${config.main_config.APP_URL}/getPatientByCID/${keyword}`;
+              const base_url = `${config.main_config.APP_URL}/getPatientByCIDNew/${userIDCard}`;
               const header = {
                 "Content-Type": "application/json",
               };
               axios
                 .get(base_url, { headers: header })
                 .then((resp) => {
-                  resp.data.data.map((val) => {
-                    setIsData(true);
-                    setUserPreName(val.pname);
-                    setUserFirstName(val.fname);
-                    setUserLastName(val.lname);
-                    setUserBedNumber(val.bedno);
-                    setUserHN(val.hn);
-                    setUserAN(val.an);
-                    setUserVN(val.vn);
-                    setUserRegDate(val.regdate);
-                    setUserDchPlanDate(val.dchdate_plan);
-                  });
+                  if (resp.data.data.length > 0) {
+                    setDataPatient([]);
+                    resp.data.data.map((val) => {
+                      setIsData(true);
+                      setUserIDCard(val.cid);
+                      setUserPreName(val.pname);
+                      setUserFirstName(val.fname);
+                      setUserLastName(val.lname);
+                      setUserBedNumber(val.cc === null ? "" : val.cc);
+                      setUserHN(val.hn);
+                      setUserVN(val.vn);
+                      setUserBirthday(val.birthday);
+                      setUserYearOld(val.yearOld);
+                      setUserRegDate(val.vstDate);
+                      setUserDchPlanDate(newDayAdd(val.vstDate, 11));
+                      setUserWeight(val.weight);
+                      setUserHeight(val.height);
+                      setUserPhone(val.hometel);
+                      return true
+                    });
+                  } else {
+                    setDataPatient([]);
+                    setIsData(false);
+                    Swal.fire({
+                      title: "ไม่พบข้อมูล!!!",
+                      text: "กรุณาระบุเลขบัตรประชาชนให้ถูกต้อง หากไม่พบข้อมูลกรุณาติดต่อเจ้าหน้าที่ผ่านช่องทางไลน์ 101 COVID CARE หรือโทร. 1669",
+                      icon: "warning",
+                    });
+                  }
                 })
                 .catch((error) => {
                   const error_code = "Network";
@@ -148,14 +283,13 @@ const RegisterPage = () => {
                     });
                   }
                 });
-              // setIsData(false);
-              // setUserBedNumber("");
-              // Swal.fire({
-              //   title: "ไม่พบข้อมูล!",
-              //   text: "กรุณากรอกเลขบัตรประชาชนให้ถูกต้อง",
-              //   icon: "error",
-              // });
             }
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: JSON.stringify(resp.data.msg),
+              icon: "error",
+            });
           }
         })
         .catch((error) => {
@@ -174,12 +308,18 @@ const RegisterPage = () => {
             });
           }
         });
+    } else {
+      Swal.fire({
+        title: "แจ้งเตือน",
+        text: "โปรดระบุเลขบัตรประชาชน 13 หลัก ก่อนตรวจสอบข้อมูล",
+        icon: "error",
+      });
     }
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
-    if (userPreName !== "") {
+    if (userIDCard !== "") {
       event.target.className += " was-validated";
       let formDataUser = {
         user_id: userId,
@@ -187,11 +327,13 @@ const RegisterPage = () => {
         fname: userFirstName,
         lname: userLastName,
         cid: userIDCard,
-        an: userAN,
         hn: userHN,
         vn: userVN,
+        birthday: userBirthday,
+        year_old: userYearOld,
         bedno: userBedNumber,
         regdate: userRegDate,
+        regtime: userRegTime,
         dchdate_plan: userDchPlanDate,
         weight: userWeight,
         height: userHeight,
@@ -219,6 +361,7 @@ const RegisterPage = () => {
         user_evaluation_snot: evaluationSnot,
         user_evaluation_redeye: evaluationRedEye,
         user_evaluation_tired: evaluationTired,
+        want_consult_doctor: wantConsultDoctor,
         created_date: "",
       };
       // console.log({
@@ -242,7 +385,7 @@ const RegisterPage = () => {
               icon: res.data.type,
             }).then((result) => {
               if (result.isConfirmed) {
-                // liff.closeWindow();
+                liff.closeWindow();
               }
             });
           } else {
@@ -254,6 +397,7 @@ const RegisterPage = () => {
           }
         })
         .catch((error) => {
+          console.log(error);
           const error_code = "Network";
           if (("" + error).indexOf(error_code) > -1) {
             Swal.fire({
@@ -291,6 +435,7 @@ const RegisterPage = () => {
               title: "Login successfuly",
             });
             setUserID(profile.userId);
+            loadData(profile.userId);
           });
         } else {
           Toast.fire({
@@ -303,8 +448,19 @@ const RegisterPage = () => {
     );
   };
 
+  const renderImage = (sourceImage) => {
+    Swal.fire({
+      imageUrl: sourceImage,
+      imageWidth: 600,
+      imageHeight: 250,
+      imageAlt: "Custom image",
+      confirmButtonText: "ปิด",
+    });
+  };
+
   useEffect(() => {
     InitailizeLiff();
+    document.title = "ประเมินตนเองประจำวัน - 101 COVID CARE";
   }, []);
   return (
     <div className="flyout">
@@ -333,6 +489,24 @@ const RegisterPage = () => {
                     </div>
                     <form className="needs-validation" onSubmit={submitHandler}>
                       <MDBRow>
+                        <MDBCol md="12" className="mb-3">
+                          {dataPatient.length > 0 && (
+                            <Fragment>
+                              <strong className="font-weight-bold">
+                                เลือกคนที่ต้องการประเมิน
+                              </strong>
+                              {dataPatient.map((val) => {
+                                return (
+                                  <div
+                                    key={val.cid}
+                                    className="text-primary patient-list pl-3 mb-1"
+                                    onClick={() => handleOnClickSearch(val.cid)}
+                                  >{`${val.fullname}`}</div>
+                                );
+                              })}
+                            </Fragment>
+                          )}
+                        </MDBCol>
                         <MDBCol md="12">
                           <label className="grey-text">
                             เลขบัตรประชาชน
@@ -350,7 +524,8 @@ const RegisterPage = () => {
                             required
                           />
                           <small className="text-warning pl-2">
-                            กรุณากดปุ่มตรวจสอบหลังบันทึกเลขบัตรประชาชน
+                            กรุณากดปุ่ม&nbsp;<kbd>ตรวจสอบ</kbd>
+                            &nbsp;เพื่อตรวจสอบข้อมูล
                           </small>
                           <br />
                           <MDBBtn
@@ -358,9 +533,55 @@ const RegisterPage = () => {
                             className="mt-1 mb-3"
                             size="sm"
                             onClick={() => handleOnClickSearch(userIDCard)}
+                            type="button"
                           >
                             ตรวจสอบ
                           </MDBBtn>
+                          <MDBBtn
+                            color="grey"
+                            className="mt-1 mb-3"
+                            size="sm"
+                            onClick={handleClearData}
+                            type="button"
+                          >
+                            ล้างข้อมูล
+                          </MDBBtn>
+                        </MDBCol>
+                      </MDBRow>
+                      <MDBRow>
+                        <MDBCol className="col-12">
+                          {isData && (
+                            <div>
+                              <label className="grey-text mr-3">
+                                เลขบัตรประชาชน
+                              </label>
+                              <strong>{userIDCard}</strong>
+                              <br />
+                              <label className="grey-text mr-3">HN</label>
+                              <strong>{userHN}</strong>
+                              <br />
+                              <label className="grey-text mr-3">
+                                ชื่อ - นามสกุล
+                              </label>
+                              <strong>{`${userPreName}${userFirstName} ${userLastName}`}</strong>
+                              <br />
+                              <label className="grey-text mr-3">
+                                วัน/เดือน/ปีเกิด
+                              </label>
+                              <strong>{`${DateTimeThai(
+                                userBirthday,
+                                1
+                              )}`}</strong>
+                              <br />
+                              <label className="grey-text mr-3">อายุ</label>
+                              <strong>{`${userYearOld} ปี`}</strong>
+                              <br />
+                              <label className="grey-text mr-3">
+                                หมายเลขเตียง
+                              </label>
+                              <strong>{`${userBedNumber}`}</strong>
+                            </div>
+                          )}
                         </MDBCol>
                       </MDBRow>
                       <MDBRow>
@@ -375,7 +596,6 @@ const RegisterPage = () => {
                             onChange={(v) => setUserPhone(v.target.value)}
                             value={userPhone}
                             placeholder="กรุณาระบุเบอร์โทร"
-                            maxLength="10"
                             required
                           />
                         </MDBCol>
@@ -410,31 +630,6 @@ const RegisterPage = () => {
                             maxLength="3"
                             required
                           />
-                        </MDBCol>
-                      </MDBRow>
-                      <MDBRow>
-                        <MDBCol className="col-12">
-                          {isData && (
-                            <div>
-                              <label className="grey-text mr-3">
-                                เลขบัตรประชาชน
-                              </label>
-                              <strong>{userIDCard}</strong>
-                              <br />
-                              <label className="grey-text mr-3">HN</label>
-                              <strong>{userHN}</strong>
-                              <br />
-                              <label className="grey-text mr-3">
-                                ชื่อ - นามสกุล
-                              </label>
-                              <strong>{`${userPreName}${userFirstName} ${userLastName}`}</strong>
-                              <br />
-                              <label className="grey-text mr-3">
-                                หมายเลขเตียง
-                              </label>
-                              <strong>{`${userBedNumber}`}</strong>
-                            </div>
-                          )}
                         </MDBCol>
                       </MDBRow>
                       <hr />
@@ -481,14 +676,15 @@ const RegisterPage = () => {
                                 className="custom-control-input"
                                 id="evaluation1"
                                 name="evaluation"
-                                value="1"
-                                onChange={(v) =>
-                                  setRoundAssessment(v.target.value)
-                                }
+                                onClick={() => setRoundAssessment(1)}
+                                checked={roundAssessment === 1}
+                                onChange={(e) => {
+                                  return e.target.value;
+                                }}
                               />
                               <label
                                 className="custom-control-label"
-                                for="evaluation1"
+                                htmlFor="evaluation1"
                               >
                                 รอบที่ 1 เวลา 07.00 - 08.30 น.
                               </label>
@@ -499,14 +695,15 @@ const RegisterPage = () => {
                                 className="custom-control-input"
                                 id="evaluation2"
                                 name="evaluation"
-                                value="2"
-                                onChange={(v) =>
-                                  setRoundAssessment(v.target.value)
-                                }
+                                onClick={() => setRoundAssessment(2)}
+                                checked={roundAssessment === 2}
+                                onChange={(e) => {
+                                  return e.target.value;
+                                }}
                               />
                               <label
                                 className="custom-control-label"
-                                for="evaluation2"
+                                htmlFor="evaluation2"
                               >
                                 รอบที่ 2 เวลา 14.00 - 15.00 น.
                               </label>
@@ -515,61 +712,108 @@ const RegisterPage = () => {
                         </MDBCol>
                       </MDBRow>
                       <MDBRow>
-                        <MDBCol md="8">
-                          <label className="blue-text">SYS (mmHg)</label>
+                        <MDBCol className="col-12">
+                          <span className="mr-2">
+                            (<span className="text-danger mr-1">*</span>
+                            หากมีการวัด)
+                          </span>
+                          <span
+                            className="img-exmple blue-text mb-3"
+                            onClick={() => renderImage(SYSandDIA)}
+                          >
+                            ดูภาพตัวอย่าง <MDBIcon far icon="images" />
+                          </span>
+                        </MDBCol>
+                        <MDBCol className="col-6">
+                          <label className="blue-text">SYS / DIA (mmHg)</label>
                           <input
                             type="number"
-                            className="form-control mb-3 col-8"
+                            className="form-control text-center mb-3 col-12"
                             onChange={(v) => setUserSYS(v.target.value)}
+                            placeholder="SYS"
+                            value={userSYS}
                           />
                         </MDBCol>
-                      </MDBRow>
-                      <MDBRow>
-                        <MDBCol md="8">
-                          <label className="blue-text">DIA (mmHg)</label>
+                        <MDBCol>
+                          <label className="blue-text">
+                            <span className="gray-text small-text">
+                              (ความดันโลหิต)
+                            </span>
+                          </label>
                           <input
                             type="number"
-                            className="form-control mb-3 col-8"
+                            className="form-control text-center mb-3 col-12"
                             onChange={(v) => setUserDIA(v.target.value)}
+                            placeholder="DIA"
+                            value={userDIA}
                           />
                         </MDBCol>
                       </MDBRow>
                       <MDBRow>
-                        <MDBCol md="8">
-                          <label className="blue-text">PR (bpm)</label>
+                        <MDBCol className="col-6">
+                          <label className="blue-text">
+                            PR (bpm)
+                            <br />
+                            <span className="gray-text small-text">
+                              (อัตราการเต้นหัวใจ)
+                            </span>
+                          </label>
                           <input
                             type="number"
-                            className="form-control mb-3 col-8"
+                            className="form-control text-center mb-3 col-12"
                             onChange={(v) => setUserPR(v.target.value)}
+                            value={userPR}
                           />
                         </MDBCol>
-                      </MDBRow>
-                      <MDBRow>
-                        <MDBCol md="8">
-                          <label className="blue-text">%SpO2</label>
+                        <MDBCol className="col-6">
+                          <label className="blue-text">
+                            %SpO2
+                            <br />
+                            <span className="gray-text small-text">
+                              (ออกซิเจนปลายนิ้ว)
+                            </span>
+                          </label>
                           <input
                             type="number"
-                            className="form-control col-8"
+                            className="form-control text-center col-12"
                             onChange={(v) => {
-                              setUserEvaluationOxygen(v.target.value);
+                              if (+v.target.value <= 100) {
+                                setUserEvaluationOxygen(v.target.value);
+                                setErrorSPO2("");
+                              } else {
+                                setErrorSPO2(
+                                  "ค่าออกซิเจนในเลือด ค่าสุงสุดไม่เกิน 100"
+                                );
+                              }
                             }}
+                            placeholder=""
+                            value={userEvaluationOxygen}
                           />
-                          <small className="orange-text">
-                            ค่าออกซิเจนในเลือด ค่าสุงสุดไม่เกิน 100
-                          </small>
+                          <span className="text-danger small-text">
+                            {errorSPO2}
+                          </span>
                         </MDBCol>
                       </MDBRow>
                       <MDBRow>
-                        <MDBCol md="8">
+                        <MDBCol md="12">
+                          <span
+                            className="img-exmple blue-text"
+                            onClick={() => renderImage(BodyTemp)}
+                          >
+                            ดูภาพตัวอย่าง <MDBIcon far icon="images" />
+                          </span>
+                        </MDBCol>
+                        <MDBCol md="6">
                           <label className="blue-text">
                             อุณหภูมิร่างกาย ( ํC) ตัวอย่าง 36.5
                           </label>
                           <input
                             type="text"
-                            className="form-control mb-3 col-8"
+                            className="form-control text-center mb-3 col-12"
                             onChange={(v) =>
                               setUserEvaluationTemp(v.target.value)
                             }
+                            value={userEvaluationTemp}
                           />
                         </MDBCol>
                       </MDBRow>
@@ -591,10 +835,14 @@ const RegisterPage = () => {
                                   setEvaluationFever(0);
                                 }
                               }}
+                              checked={evaluationFever === 1}
+                              onChange={(e) => {
+                                return e.target.value;
+                              }}
                             />
                             <label
                               className="custom-control-label"
-                              for="user_evaluation_fever"
+                              htmlFor="user_evaluation_fever"
                             >
                               {evaluationFever === 1 ? (
                                 <small className="pr-3 blue-text">มี</small>
@@ -617,10 +865,14 @@ const RegisterPage = () => {
                                   setEvaluationCough(0);
                                 }
                               }}
+                              checked={evaluationCough === 1}
+                              onChange={(e) => {
+                                return e.target.value;
+                              }}
                             />
                             <label
                               className="custom-control-label"
-                              for="user_evaluation_cough"
+                              htmlFor="user_evaluation_cough"
                             >
                               {evaluationCough === 1 ? (
                                 <small className="pr-3 blue-text">มี</small>
@@ -643,10 +895,14 @@ const RegisterPage = () => {
                                   setEvaluationPhlegm(0);
                                 }
                               }}
+                              checked={evaluationPhlegm === 1}
+                              onChange={(e) => {
+                                return e.target.value;
+                              }}
                             />
                             <label
                               className="custom-control-label"
-                              for="user_evaluation_phlegm"
+                              htmlFor="user_evaluation_phlegm"
                             >
                               {evaluationPhlegm === 1 ? (
                                 <small className="pr-3 blue-text">มี</small>
@@ -669,10 +925,14 @@ const RegisterPage = () => {
                                   setEvaluationGasp(0);
                                 }
                               }}
+                              checked={evaluationGasp === 1}
+                              onChange={(e) => {
+                                return e.target.value;
+                              }}
                             />
                             <label
                               className="custom-control-label"
-                              for="user_evaluation_gasp"
+                              htmlFor="user_evaluation_gasp"
                             >
                               {evaluationGasp === 1 ? (
                                 <small className="pr-3 blue-text">มี</small>
@@ -695,10 +955,14 @@ const RegisterPage = () => {
                                   setEvaluationTaste(0);
                                 }
                               }}
+                              checked={evaluationTaste === 1}
+                              onChange={(e) => {
+                                return e.target.value;
+                              }}
                             />
                             <label
                               className="custom-control-label"
-                              for="user_evaluation_taste"
+                              htmlFor="user_evaluation_taste"
                             >
                               {evaluationTaste === 1 ? (
                                 <small className="pr-3 blue-text">มี</small>
@@ -721,10 +985,14 @@ const RegisterPage = () => {
                                   setEvaluationMuscle(0);
                                 }
                               }}
+                              checked={evaluationMuscle === 1}
+                              onChange={(e) => {
+                                return e.target.value;
+                              }}
                             />
                             <label
                               className="custom-control-label"
-                              for="user_evaluation_muscle"
+                              htmlFor="user_evaluation_muscle"
                             >
                               {evaluationMuscle === 1 ? (
                                 <small className="pr-3 blue-text">มี</small>
@@ -747,10 +1015,14 @@ const RegisterPage = () => {
                                   setEvaluationLiquid(0);
                                 }
                               }}
+                              checked={evaluationLiquid === 1}
+                              onChange={(e) => {
+                                return e.target.value;
+                              }}
                             />
                             <label
                               className="custom-control-label"
-                              for="user_evaluation_liquid"
+                              htmlFor="user_evaluation_liquid"
                             >
                               {evaluationLiquid === 1 ? (
                                 <small className="pr-3 blue-text">มี</small>
@@ -773,10 +1045,14 @@ const RegisterPage = () => {
                                   setEvaluationRash(0);
                                 }
                               }}
+                              checked={evaluationRash === 1}
+                              onChange={(e) => {
+                                return e.target.value;
+                              }}
                             />
                             <label
                               className="custom-control-label"
-                              for="user_evaluation_rash"
+                              htmlFor="user_evaluation_rash"
                             >
                               {evaluationRash === 1 ? (
                                 <small className="pr-3 blue-text">มี</small>
@@ -799,10 +1075,14 @@ const RegisterPage = () => {
                                   setEvaluationSnot(0);
                                 }
                               }}
+                              checked={evaluationSnot === 1}
+                              onChange={(e) => {
+                                return e.target.value;
+                              }}
                             />
                             <label
                               className="custom-control-label"
-                              for="user_evaluation_snot"
+                              htmlFor="user_evaluation_snot"
                             >
                               {evaluationSnot === 1 ? (
                                 <small className="pr-3 blue-text">มี</small>
@@ -825,10 +1105,14 @@ const RegisterPage = () => {
                                   setEvaluationRedEye(0);
                                 }
                               }}
+                              checked={evaluationRedEye === 1}
+                              onChange={(e) => {
+                                return e.target.value;
+                              }}
                             />
                             <label
                               className="custom-control-label"
-                              for="user_evaluation_redeye"
+                              htmlFor="user_evaluation_redeye"
                             >
                               {evaluationRedEye === 1 ? (
                                 <small className="pr-3 blue-text">มี</small>
@@ -851,10 +1135,14 @@ const RegisterPage = () => {
                                   setEvaluationTired(0);
                                 }
                               }}
+                              checked={evaluationTired === 1}
+                              onChange={(e) => {
+                                return e.target.value;
+                              }}
                             />
                             <label
                               className="custom-control-label"
-                              for="user_evaluation_tired"
+                              htmlFor="user_evaluation_tired"
                             >
                               {evaluationTired === 1 ? (
                                 <small className="pr-3 blue-text">มี</small>
@@ -862,6 +1150,40 @@ const RegisterPage = () => {
                                 <small className="pr-3 grey-text">ไม่มี</small>
                               )}
                               อ่อนเพลีย
+                            </label>
+                          </div>
+                          <div className="custom-control custom-switch mb-2">
+                            <input
+                              type="checkbox"
+                              className="custom-control-input"
+                              id="want_consult_doctor"
+                              name="want_consult_doctor"
+                              onClick={(e) => {
+                                if (e.target.checked) {
+                                  setWantConsultDoctor(1);
+                                } else {
+                                  setWantConsultDoctor(0);
+                                }
+                              }}
+                              checked={wantConsultDoctor === 1}
+                              onChange={(e) => {
+                                return e.target.value;
+                              }}
+                            />
+                            <label
+                              className="custom-control-label"
+                              htmlFor="want_consult_doctor"
+                            >
+                              {wantConsultDoctor === 1 ? (
+                                <small className="pr-3 blue-text">
+                                  ต้องการ
+                                </small>
+                              ) : (
+                                <small className="pr-3 grey-text">
+                                  ไม่ต้องการ
+                                </small>
+                              )}
+                              ต้องการปรึกษาแพทย์
                             </label>
                           </div>
                         </MDBCol>

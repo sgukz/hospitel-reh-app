@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import Swal from "sweetalert2";
-import {
-  MDBFooter,
-  MDBContainer,
-  MDBIcon,
-} from "mdbreact";
+import { MDBFooter, MDBContainer, MDBIcon } from "mdbreact";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import Routes from "./Routes";
@@ -85,15 +81,15 @@ class App extends Component {
     }
   }
   render() {
-    const overlay = (
-      <div
-        id="sidenav-overlay"
-        style={{ backgroundColor: "transparent" }}
-        onClick={this.toggleCollapse("mainNavbarCollapse")}
-      />
-    );
+    // const overlay = (
+    //   <div
+    //     id="sidenav-overlay"
+    //     style={{ backgroundColor: "transparent" }}
+    //     onClick={this.toggleCollapse("mainNavbarCollapse")}
+    //   />
+    // );
 
-    const { collapseID } = this.state;
+    // const { collapseID } = this.state;
 
     return (
       <Router>
@@ -104,17 +100,17 @@ class App extends Component {
           <MDBFooter className="font-small elegant-color-dark">
             <div className="footer-copyright text-center py-3">
               <MDBContainer fluid>
-              {`v.${pkgVersion}`}
-                &copy; {new Date().getFullYear()} Copyright{" "}
-                <a href="http://reh.go.th" rel="noopener">
+                <a href="https://reh.go.th" rel="noopener">
                   {" "}
                   โรงพยาบาลร้อยเอ็ด
                 </a>
-                <a href="tel:043518200" className="ml-3">
-                  โทร.
-                <MDBIcon icon="phone-alt" className="text-white ml-2 mr-1"/>
-                043-518200 ต่อ 9000
+                <a href="tel:043518200" className="ml-2">
+                  โทร. 043-518200 ต่อ 9000
+                  <MDBIcon icon="phone-alt" className="text-white ml-1 mr-1" />
                 </a>
+                <br />
+                {`v.${pkgVersion}`}
+                &copy; {new Date().getFullYear()} Copyright{" "}
               </MDBContainer>
             </div>
           </MDBFooter>

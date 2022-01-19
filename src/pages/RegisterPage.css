@@ -1,0 +1,17 @@
+.small-text {
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.gray-text {
+    color: darkgray !important;
+}
+
+.img-exmple {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.patient-list {
+    cursor: pointer;
+}

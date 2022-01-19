@@ -1,36 +1,69 @@
 const DateTimeThai = (datetime, format) => {
-  let thmonth = {
-    "01": "ม.ค.",
-    "02": "ก.พ.",
-    "03": "มี.ค.",
-    "04": "เม.ย.",
-    "05": "พ.ค.",
-    "06": "มิ.ย.",
-    "07": "ก.ค.",
-    "08": "ส.ค.",
-    "09": "ก.ย.",
-    10: "ต.ค.",
-    11: "พ.ย.",
-    12: "ธ.ค.",
-  };
-  let createdDate = "";
-  let date = datetime.split(" ");
-  let date_str = date[0].split("-");
-  let time_str = date[1].split(":");
-  let new_date = `${date_str[2]} ${thmonth[date_str[1]]} ${
-    parseInt(date_str[0]) + 543
-  }`;
-  let new_time = `${time_str[0]}:${time_str[1]}`;
-  if (format === 1) {
-    createdDate = new_date;
-  } else if (format === 2) {
-    createdDate = new_time;
-  }else if (format === 3) {
-    createdDate = `${date_str[2]}/${date_str[1]}/${parseInt(date_str[0]) + 543}`
-  } else {
-    createdDate = new_date + " " + new_time;
-  }
-  return createdDate;
-};
+  let checkDate = new Date(datetime.replace(/-/g, "/"));
+  let dateTime = isNaN(checkDate.getDate())
+    ? new Date(datetime)
+    : new Date(datetime.replace(/-/g, "/"));
+  const toTwoDigits = (num) => (num < 10 ? "0" + num : num);
+  let year = +dateTime.getFullYear() + 543;
+  let month = dateTime.getMonth();
+  let day = dateTime.getDate();
+  let dayWeek = +dateTime.getDay();
+  let hour = toTwoDigits(dateTime.getHours());
+  let minute = toTwoDigits(dateTime.getMinutes());
+  let currentDate = "";
+  let dayOfWeek = [
+    "อาทิตย์",
+    "จันทร์",
+    "อังคาร",
+    "พุธ",
+    "พฤหัสบดี",
+    "ศุกร์",
+    "เสาร์",
+  ];
+  let arrMonthTH = [
+    "ม.ค.",
+    "ก.พ.",
+    "มี.ค.",
+    "เม.ย.",
+    "พ.ค.",
+    "มิ.ย.",
+    "ก.ค.",
+    "ส.ค.",
+    "ก.ย.",
+    "ต.ค.",
+    "พ.ย.",
+    "ธ.ค.",
+  ];
+  let arrMonthFullTH = [
+    "มกราคม",
+    "กุมภาพันธ์",
+    "มีนาคม",
+    "เมษายน",
+    "พฤษภาคม",
+    "มิถุนายน",
+    "กรกฎาคม",
+    "สิงหาคม",
+    "กันยายน",
+    "ตุลาคม",
+    "พฤศจิกายน",
+    "ธันวาคม",
+  ];
 
+  if (format === 1) {
+    currentDate = `${toTwoDigits(day)}/${toTwoDigits(+month + 1)}/${year}`;
+  } else if (format === 2) {
+    currentDate = `${dayOfWeek[dayWeek]}, ${day} ${arrMonthFullTH[month]} ${year} ${hour}:${minute} น.`;
+  } else if (format === 3) {
+    currentDate = `${day} ${arrMonthFullTH[month]} ${year}, ${hour}:${minute} น.`;
+  } else if (format === 4) {
+    currentDate = `${dayOfWeek[dayWeek]}, ${day} ${arrMonthFullTH[month]} ${year}`;
+  } else if (format === 6) {
+    currentDate = `${dayOfWeek[dayWeek]}, ${day} ${arrMonthTH[month]} ${year}`;
+  } else if (format === 5) {
+    currentDate = `${day} ${arrMonthTH[month]} ${year} ${hour}:${minute} น.`;
+  } else {
+    currentDate = `${day} ${arrMonthFullTH[month]} ${year}`;
+  }
+  return currentDate;
+};
 export default DateTimeThai;
