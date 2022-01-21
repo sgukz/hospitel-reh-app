@@ -69,7 +69,6 @@ const RegisterPage = () => {
   const [userWeight, setUserWeight] = useState("");
   const [userHeight, setUserHeight] = useState("");
   const [userRegDate, setUserRegDate] = useState("");
-  const [userRegTime, setUserRegTime] = useState("");
   const [userDchPlanDate, setUserDchPlanDate] = useState("");
   const [userPhone, setUserPhone] = useState("");
   const [userPreName, setUserPreName] = useState("");
@@ -189,45 +188,112 @@ const RegisterPage = () => {
         .get(baseUrl, { headers: header })
         .then((resp) => {
           if (resp.data.status === 200) {
-            // console.log(resp.data);
             if (resp.data.data.length > 0) {
               setDataPatient([]);
               resp.data.data.map((val) => {
                 setIsData(true);
                 setUserHN(val.hn);
                 setUserVN(val.vn);
-                setUserWeight(val.weight);
-                setUserHeight(val.height);
+                setUserWeight(val.weight !== null ? val.weight : "");
+                setUserHeight(val.height !== null ? val.height : "");
                 setUserRegDate(val.regDate);
                 setUserDchPlanDate(val.dchDate);
-                setUserPhone(val.phone);
+                setUserPhone(val.phone !== null ? val.phone : "");
                 setUserPreName(val.pname);
                 setUserFirstName(val.fname);
                 setUserLastName(val.lname);
-                setUserIDCard(val.cid);
+                setUserIDCard(keyword);
                 setUserBirthday(val.birthDay);
                 setUserYearOld(val.year_old);
-                setUserBedNumber(val.bedno);
-                setDateAssessment(val.dateAssessment);
-                setRoundAssessment(val.evaluation_id);
-                setUserSYS(val.user_evaluation_sys);
-                setUserDIA(val.user_evaluation_dia);
-                setUserPR(val.user_evaluation_pr);
-                setUserEvaluationTemp(val.user_evaluation_temp);
-                setUserEvaluationOxygen(val.user_evaluation_oxygen);
-                setEvaluationCough(val.user_evaluation_cough);
-                setEvaluationPhlegm(val.user_evaluation_phlegm);
-                setEvaluationGasp(val.user_evaluation_gasp);
-                setEvaluationTaste(val.user_evaluation_taste);
-                setEvaluationMuscle(val.user_evaluation_muscle);
-                setEvaluationLiquid(val.user_evaluation_liquid);
-                setEvaluationRash(val.user_evaluation_rash);
-                setEvaluationFever(val.user_evaluation_fever);
-                setEvaluationSnot(val.user_evaluation_snot);
-                setEvaluationRedEye(val.user_evaluation_redeye);
-                setEvaluationTired(val.user_evaluation_tired);
-                setWantConsultDoctor(val.want_consult_doctor);
-                return true
+                setUserBedNumber(val.bedno !== null ? val.bedno : "");
+                setDateAssessment(
+                  val.dateAssessment !== null ? val.dateAssessment : today
+                );
+                setRoundAssessment(
+                  val.evaluation_id !== null ? val.evaluation_id : ""
+                );
+                setUserSYS(
+                  val.user_evaluation_sys !== null
+                    ? val.user_evaluation_sys
+                    : ""
+                );
+                setUserDIA(
+                  val.user_evaluation_dia !== null
+                    ? val.user_evaluation_dia
+                    : ""
+                );
+                setUserPR(
+                  val.user_evaluation_pr !== null ? val.user_evaluation_pr : ""
+                );
+                setUserEvaluationTemp(
+                  val.user_evaluation_temp !== null
+                    ? val.user_evaluation_temp
+                    : ""
+                );
+                setUserEvaluationOxygen(
+                  val.user_evaluation_oxygen !== null
+                    ? val.user_evaluation_oxygen
+                    : ""
+                );
+                setEvaluationCough(
+                  val.user_evaluation_cough !== null
+                    ? val.user_evaluation_cough
+                    : 0
+                );
+                setEvaluationPhlegm(
+                  val.user_evaluation_phlegm !== null
+                    ? val.user_evaluation_phlegm
+                    : 0
+                );
+                setEvaluationGasp(
+                  val.user_evaluation_gasp !== null
+                    ? val.user_evaluation_gasp
+                    : 0
+                );
+                setEvaluationTaste(
+                  val.user_evaluation_taste !== null
+                    ? val.user_evaluation_taste
+                    : 0
+                );
+                setEvaluationMuscle(
+                  val.user_evaluation_muscle !== null
+                    ? val.user_evaluation_muscle
+                    : 0
+                );
+                setEvaluationLiquid(
+                  val.user_evaluation_liquid !== null
+                    ? val.user_evaluation_liquid
+                    : 0
+                );
+                setEvaluationRash(
+                  val.user_evaluation_rash !== null
+                    ? val.user_evaluation_rash
+                    : 0
+                );
+                setEvaluationFever(
+                  val.user_evaluation_fever !== null
+                    ? val.user_evaluation_fever
+                    : 0
+                );
+                setEvaluationSnot(
+                  val.user_evaluation_snot !== null
+                    ? val.user_evaluation_snot
+                    : 0
+                );
+                setEvaluationRedEye(
+                  val.user_evaluation_redeye !== null
+                    ? val.user_evaluation_redeye
+                    : 0
+                );
+                setEvaluationTired(
+                  val.user_evaluation_tired !== null
+                    ? val.user_evaluation_tired
+                    : 0
+                );
+                setWantConsultDoctor(
+                  val.want_consult_doctor !== null ? val.want_consult_doctor : 0
+                );
+                return true;
               });
             } else {
               const base_url = `${config.main_config.APP_URL}/getPatientByCIDNew/${userIDCard}`;
@@ -239,13 +305,15 @@ const RegisterPage = () => {
                 .then((resp) => {
                   if (resp.data.data.length > 0) {
                     setDataPatient([]);
+                    console.log(today);
                     resp.data.data.map((val) => {
                       setIsData(true);
-                      setUserIDCard(val.cid);
+                      setUserIDCard(keyword);
                       setUserPreName(val.pname);
                       setUserFirstName(val.fname);
                       setUserLastName(val.lname);
                       setUserBedNumber(val.cc === null ? "" : val.cc);
+                      setDateAssessment(today);
                       setUserHN(val.hn);
                       setUserVN(val.vn);
                       setUserBirthday(val.birthday);
@@ -255,7 +323,7 @@ const RegisterPage = () => {
                       setUserWeight(val.weight);
                       setUserHeight(val.height);
                       setUserPhone(val.hometel);
-                      return true
+                      return true;
                     });
                   } else {
                     setDataPatient([]);
@@ -320,99 +388,115 @@ const RegisterPage = () => {
   const submitHandler = (event) => {
     event.preventDefault();
     if (userIDCard !== "") {
-      event.target.className += " was-validated";
-      let formDataUser = {
-        user_id: userId,
-        pname: userPreName,
-        fname: userFirstName,
-        lname: userLastName,
-        cid: userIDCard,
-        hn: userHN,
-        vn: userVN,
-        birthday: userBirthday,
-        year_old: userYearOld,
-        bedno: userBedNumber,
-        regdate: userRegDate,
-        regtime: userRegTime,
-        dchdate_plan: userDchPlanDate,
-        weight: userWeight,
-        height: userHeight,
-        phone: userPhone,
-        created_date: "",
-      };
+      if (roundAssessment !== null) {
+        if (userWeight !== "" && userHeight !== "") {
+          event.target.className += " was-validated";
+          let formDataUser = {
+            user_id: userId,
+            pname: userPreName,
+            fname: userFirstName,
+            lname: userLastName,
+            cid: userIDCard,
+            hn: userHN,
+            vn: userVN,
+            birthday: userBirthday,
+            year_old: userYearOld,
+            bedno: userBedNumber,
+            regdate: userRegDate,
+            dchdate_plan: userDchPlanDate,
+            weight: userWeight,
+            height: userHeight,
+            phone: userPhone,
+            created_date: "",
+          };
 
-      let formDataUserEvaluation = {
-        evaluation_id: roundAssessment,
-        user_id: userId,
-        user_evaluation_date: dateAssessment,
-        user_evaluation_sys: userSYS,
-        user_evaluation_dia: userDIA,
-        user_evaluation_pr: userPR,
-        user_evaluation_temp: userEvaluationTemp,
-        user_evaluation_oxygen: userEvaluationOxygen,
-        user_evaluation_cough: evaluationCough,
-        user_evaluation_phlegm: evaluationPhlegm,
-        user_evaluation_gasp: evaluationGasp,
-        user_evaluation_taste: evaluationTaste,
-        user_evaluation_muscle: evaluationMuscle,
-        user_evaluation_liquid: evaluationLiquid,
-        user_evaluation_rash: evaluationRash,
-        user_evaluation_fever: evaluationFever,
-        user_evaluation_snot: evaluationSnot,
-        user_evaluation_redeye: evaluationRedEye,
-        user_evaluation_tired: evaluationTired,
-        want_consult_doctor: wantConsultDoctor,
-        created_date: "",
-      };
-      // console.log({
-      //   formDataUser: formDataUser,
-      //   formDataUserEvaluation: formDataUserEvaluation,
-      // });
-      const base_url = `${config.main_config.APP_URL}/saveData`;
-      axios
-        .post(base_url, {
-          formDataUser: formDataUser,
-          formDataUserEvaluation: formDataUserEvaluation,
-        })
-        .then((res) => {
-          if (res.data.status_code === 200) {
-            Swal.fire({
-              title: res.data.msg,
-              text: "ขอบคุณค่ะ",
-              showDenyButton: false,
-              showCancelButton: false,
-              confirmButtonText: `ตกลง`,
-              icon: res.data.type,
-            }).then((result) => {
-              if (result.isConfirmed) {
-                liff.closeWindow();
+          let formDataUserEvaluation = {
+            evaluation_id: roundAssessment,
+            user_id: userId,
+            user_evaluation_date: dateAssessment,
+            user_evaluation_sys: userSYS,
+            user_evaluation_dia: userDIA,
+            user_evaluation_pr: userPR,
+            user_evaluation_temp: userEvaluationTemp,
+            user_evaluation_oxygen: userEvaluationOxygen,
+            user_evaluation_cough: evaluationCough,
+            user_evaluation_phlegm: evaluationPhlegm,
+            user_evaluation_gasp: evaluationGasp,
+            user_evaluation_taste: evaluationTaste,
+            user_evaluation_muscle: evaluationMuscle,
+            user_evaluation_liquid: evaluationLiquid,
+            user_evaluation_rash: evaluationRash,
+            user_evaluation_fever: evaluationFever,
+            user_evaluation_snot: evaluationSnot,
+            user_evaluation_redeye: evaluationRedEye,
+            user_evaluation_tired: evaluationTired,
+            want_consult_doctor: wantConsultDoctor,
+            created_date: "",
+          };
+          // console.log({
+          //   formDataUser: formDataUser,
+          //   formDataUserEvaluation: formDataUserEvaluation,
+          // });
+          const base_url = `${config.main_config.APP_URL}/saveData`;
+          axios
+            .post(base_url, {
+              formDataUser: formDataUser,
+              formDataUserEvaluation: formDataUserEvaluation,
+            })
+            .then((res) => {
+              if (res.data.status_code === 200) {
+                Swal.fire({
+                  title: res.data.msg,
+                  text: "ขอบคุณค่ะ",
+                  showDenyButton: false,
+                  showCancelButton: false,
+                  confirmButtonText: `ตกลง`,
+                  icon: res.data.type,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    liff.closeWindow();
+                  }
+                });
+              } else {
+                console.log(res.data);
+                // Swal.fire({
+                //   title: "เกิดข้อผิดพลาด",
+                //   text: JSON.stringify(res.data.msg),
+                //   icon: res.data.type,
+                // });
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+              const error_code = "Network";
+              if (("" + error).indexOf(error_code) > -1) {
+                Swal.fire({
+                  title: "Can't connect service!",
+                  text: "Please try again.",
+                  icon: "error",
+                });
+              } else {
+                Swal.fire({
+                  title: "Error",
+                  text: "" + error,
+                  icon: "error",
+                });
               }
             });
-          } else {
-            Swal.fire({
-              title: "เกิดข้อผิดพลาด",
-              text: JSON.stringify(res.data.msg),
-              icon: res.data.type,
-            });
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          const error_code = "Network";
-          if (("" + error).indexOf(error_code) > -1) {
-            Swal.fire({
-              title: "Can't connect service!",
-              text: "Please try again.",
-              icon: "error",
-            });
-          } else {
-            Swal.fire({
-              title: "Error",
-              text: "" + error,
-              icon: "error",
-            });
-          }
+        } else {
+          Swal.fire({
+            title: "แจ้งเตือน",
+            text: "โปรดระบุน้ำหนัก(kg),ส่วนสูง(cm) ของคุณ ก่อนบันทึกข้อมูล",
+            icon: "warning",
+          });
+        }
+      } else {
+        Swal.fire({
+          title: "แจ้งเตือน",
+          text: "กรุณาเลือกรอบประเมิน ก่อนบันทึกข้อมูล",
+          icon: "warning",
         });
+      }
     } else {
       Swal.fire({
         title: "แจ้งเตือน",
@@ -423,9 +507,10 @@ const RegisterPage = () => {
   };
 
   const InitailizeLiff = () => {
+    // loadData(userId);
     liff.init(
       {
-        liffId: "1655908292-5Y1rqwK3",
+        liffId: "1655908292-8K1PQdNe",
       },
       () => {
         if (liff.isLoggedIn()) {
@@ -613,7 +698,6 @@ const RegisterPage = () => {
                             value={userWeight}
                             placeholder="น้ำหนัก"
                             maxLength="5"
-                            required
                           />
                         </MDBCol>
                         <MDBCol className="col-6">
@@ -628,7 +712,6 @@ const RegisterPage = () => {
                             value={userHeight}
                             placeholder="ส่วนสูง"
                             maxLength="3"
-                            required
                           />
                         </MDBCol>
                       </MDBRow>
