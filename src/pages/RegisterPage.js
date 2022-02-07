@@ -1,10 +1,10 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 // import { useHistory } from "react-router-dom";
 
 import axios from "axios";
 import Swal from "sweetalert2";
 import config from "../config";
-import liff from "@line/liff";
+// import liff from "@line/liff";
 import Banner from "../assets/images/banner_register.png";
 
 import {
@@ -46,24 +46,24 @@ function newDayAdd(inputDate, addDay) {
   return `${mkYear}-${mkMonth2}-${mkDay2}`;
 }
 
-const Toast = Swal.mixin({
-  toast: true,
-  position: "top",
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.addEventListener("mouseenter", Swal.stopTimer);
-    toast.addEventListener("mouseleave", Swal.resumeTimer);
-  },
-});
+// const Toast = Swal.mixin({
+//   toast: true,
+//   position: "top",
+//   showConfirmButton: false,
+//   timer: 3000,
+//   timerProgressBar: true,
+//   didOpen: (toast) => {
+//     toast.addEventListener("mouseenter", Swal.stopTimer);
+//     toast.addEventListener("mouseleave", Swal.resumeTimer);
+//   },
+// });
 
 const today = toDay();
 
 const RegisterPage = () => {
   const [isData, setIsData] = useState(false);
-  const [dataPatient, setDataPatient] = useState([]);
-  const [userId, setUserID] = useState("");
+  // const [dataPatient, setDataPatient] = useState([]);
+  // const [userId, setUserID] = useState("");
   const [userHN, setUserHN] = useState("");
   const [userVN, setUserVN] = useState("");
   const [userWeight, setUserWeight] = useState("");
@@ -144,39 +144,39 @@ const RegisterPage = () => {
     setWantConsultDoctor(0);
   };
 
-  const loadData = (userId) => {
-    let baseUrl = `${config.main_config.APP_URL}/getUserByUserID/${userId}`;
-    const header = {
-      "Content-Type": "application/json",
-    };
-    axios.get(baseUrl, { headers: header }).then((resp) => {
-      let data = resp.data;
-      // console.log(data);
-      if (data.status === 200) {
-        if (data.data.length > 0) {
-          if (data.data.length === 1) {
-            setDataPatient([]);
-            handleOnClickSearch(data.data[0].cid);
-          } else {
-            setDataPatient(data.data);
-          }
-        } else {
-          Swal.fire({
-            title: "คุณเข้าใช้งานครั้งแรก",
-            text: "กรุณากรอกเลขบัตรประชาชนเพื่อตรวจสอบข้อมูล หากไม่พบข้อมูลกรุณาติดต่อเจ้าหน้าที่ผ่านช่องทางไลน์ 101 COVID CARE หรือโทร. 1669",
-            icon: "warning",
-            confirmButtonText: "ปิด",
-          });
-        }
-      } else {
-        Swal.fire({
-          title: "Error",
-          text: JSON.stringify(resp.data.msg),
-          icon: "error",
-        });
-      }
-    });
-  };
+  // const loadData = (userId) => {
+  //   let baseUrl = `${config.main_config.APP_URL}/getUserByUserID/${userId}`;
+  //   const header = {
+  //     "Content-Type": "application/json",
+  //   };
+  //   axios.get(baseUrl, { headers: header }).then((resp) => {
+  //     let data = resp.data;
+  //     // console.log(data);
+  //     if (data.status === 200) {
+  //       if (data.data.length > 0) {
+  //         if (data.data.length === 1) {
+  //           setDataPatient([]);
+  //           handleOnClickSearch(data.data[0].cid);
+  //         } else {
+  //           setDataPatient(data.data);
+  //         }
+  //       } else {
+  //         Swal.fire({
+  //           title: "คุณเข้าใช้งานครั้งแรก",
+  //           text: "กรุณากรอกเลขบัตรประชาชนเพื่อตรวจสอบข้อมูล หากไม่พบข้อมูลกรุณาติดต่อเจ้าหน้าที่ผ่านช่องทางไลน์ 101 COVID CARE หรือโทร. 1669",
+  //           icon: "warning",
+  //           confirmButtonText: "ปิด",
+  //         });
+  //       }
+  //     } else {
+  //       Swal.fire({
+  //         title: "Error",
+  //         text: JSON.stringify(resp.data.msg),
+  //         icon: "error",
+  //       });
+  //     }
+  //   });
+  // };
 
   const handleOnClickSearch = (keyword) => {
     if (keyword !== "") {
@@ -189,7 +189,7 @@ const RegisterPage = () => {
         .then((resp) => {
           if (resp.data.status === 200) {
             if (resp.data.data.length > 0) {
-              setDataPatient([]);
+              // setDataPatient([]);
               resp.data.data.map((val) => {
                 setIsData(true);
                 setUserHN(val.hn);
@@ -304,7 +304,7 @@ const RegisterPage = () => {
                 .get(base_url, { headers: header })
                 .then((resp) => {
                   if (resp.data.data.length > 0) {
-                    setDataPatient([]);
+                    // setDataPatient([]);
                     console.log(today);
                     resp.data.data.map((val) => {
                       setIsData(true);
@@ -326,7 +326,7 @@ const RegisterPage = () => {
                       return true;
                     });
                   } else {
-                    setDataPatient([]);
+                    // setDataPatient([]);
                     setIsData(false);
                     Swal.fire({
                       title: "ไม่พบข้อมูล!!!",
@@ -392,7 +392,6 @@ const RegisterPage = () => {
         if (userWeight !== "" && userHeight !== "") {
           event.target.className += " was-validated";
           let formDataUser = {
-            user_id: userId,
             pname: userPreName,
             fname: userFirstName,
             lname: userLastName,
@@ -412,7 +411,6 @@ const RegisterPage = () => {
 
           let formDataUserEvaluation = {
             evaluation_id: roundAssessment,
-            user_id: userId,
             user_evaluation_date: dateAssessment,
             user_evaluation_sys: userSYS,
             user_evaluation_dia: userDIA,
@@ -454,7 +452,7 @@ const RegisterPage = () => {
                   icon: res.data.type,
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    liff.closeWindow();
+                    window.close();
                   }
                 });
               } else {
@@ -506,32 +504,32 @@ const RegisterPage = () => {
     }
   };
 
-  const InitailizeLiff = () => {
-    // loadData(userId);
-    liff.init(
-      {
-        liffId: "1655908292-8K1PQdNe",
-      },
-      () => {
-        if (liff.isLoggedIn()) {
-          liff.getProfile().then((profile) => {
-            Toast.fire({
-              icon: "success",
-              title: "Login successfuly",
-            });
-            setUserID(profile.userId);
-            loadData(profile.userId);
-          });
-        } else {
-          Toast.fire({
-            icon: "error",
-            title: "No login!",
-          });
-        }
-      },
-      (err) => console.log(err)
-    );
-  };
+  // const InitailizeLiff = () => {
+  //   // loadData(userId);
+  //   liff.init(
+  //     {
+  //       liffId: "1655908292-8K1PQdNe",
+  //     },
+  //     () => {
+  //       if (liff.isLoggedIn()) {
+  //         liff.getProfile().then((profile) => {
+  //           Toast.fire({
+  //             icon: "success",
+  //             title: "Login successfuly",
+  //           });
+  //           setUserID(profile.userId);
+  //           loadData(profile.userId);
+  //         });
+  //       } else {
+  //         Toast.fire({
+  //           icon: "error",
+  //           title: "No login!",
+  //         });
+  //       }
+  //     },
+  //     (err) => console.log(err)
+  //   );
+  // };
 
   const renderImage = (sourceImage) => {
     Swal.fire({
@@ -544,7 +542,6 @@ const RegisterPage = () => {
   };
 
   useEffect(() => {
-    InitailizeLiff();
     document.title = "ประเมินตนเองประจำวัน - 101 COVID CARE";
   }, []);
   return (
@@ -574,7 +571,7 @@ const RegisterPage = () => {
                     </div>
                     <form className="needs-validation" onSubmit={submitHandler}>
                       <MDBRow>
-                        <MDBCol md="12" className="mb-3">
+                        {/* <MDBCol md="12" className="mb-3">
                           {dataPatient.length > 0 && (
                             <Fragment>
                               <strong className="font-weight-bold">
@@ -591,7 +588,7 @@ const RegisterPage = () => {
                               })}
                             </Fragment>
                           )}
-                        </MDBCol>
+                        </MDBCol> */}
                         <MDBCol md="12">
                           <label className="grey-text">
                             เลขบัตรประชาชน
