@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { useHistory } from "react-router-dom";
 
 import axios from "axios";
@@ -452,16 +452,15 @@ const RegisterPage = () => {
                   icon: res.data.type,
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    window.close();
+                    window.location.reload()
                   }
                 });
               } else {
-                console.log(res.data);
-                // Swal.fire({
-                //   title: "เกิดข้อผิดพลาด",
-                //   text: JSON.stringify(res.data.msg),
-                //   icon: res.data.type,
-                // });
+                Swal.fire({
+                  title: "เกิดข้อผิดพลาด",
+                  text: JSON.stringify(res.data.msg),
+                  icon: res.data.type,
+                });
               }
             })
             .catch((error) => {
